@@ -9,7 +9,7 @@ const Solutions = () => {
         </div>
       </header>
 
-      <section className="services container" style={{ marginTop: '-4rem' }}>
+      <section className="services container" style={{ marginTop: '-4rem', position: 'relative', zIndex: 2 }}>
         <div className="services-grid">
           {/* Web Dev */}
           <div className="service-card reveal" style={{ display: 'flex', flexDirection: 'row', gridColumn: '1 / -1', alignItems: 'center' }}>

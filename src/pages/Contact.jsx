@@ -9,7 +9,7 @@ const Contact = () => {
         </div>
       </header>
 
-      <section className="container" style={{ marginTop: '-4rem', marginBottom: '6rem' }}>
+      <section className="container" style={{ marginTop: '-4rem', marginBottom: '6rem', position: 'relative', zIndex: 2 }}>
         <div className="contact-grid">
           
           <div className="contact-info reveal" style={{ background: 'var(--bg-secondary)', padding: '3rem', borderRadius: '20px', boxShadow: 'var(--shadow-soft)' }}>
