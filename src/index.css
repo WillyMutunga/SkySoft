@@ -583,6 +583,26 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+.solution-card {
+  display: flex;
+  flex-direction: row;
+  grid-column: 1 / -1;
+  align-items: center;
+}
+
+.solution-card.reverse {
+  flex-direction: row-reverse;
+}
+
+.solution-img {
+  width: 40%;
+  height: 300px;
+}
+
+.solution-content {
+  width: 60%;
+  padding: 3rem;
+}
 
 @media (max-width: 768px) {
   .hero-title {
@@ -619,14 +639,13 @@ footer {
     display: flex;
   }
   
-  .service-card[style*="flex-direction"] {
-      flex-direction: column !important;
+  .solution-card, .solution-card.reverse {
+    flex-direction: column;
   }
-  .service-card[style*="flex-direction"] .card-img, 
-  .service-card[style*="flex-direction"] .card-content {
-      width: 100% !important;
+  .solution-img, .solution-content {
+    width: 100%;
   }
-  .service-card[style*="flex-direction"] .card-content {
-      padding: 2rem !important;
+  .solution-content {
+    padding: 2rem;
   }
 }
