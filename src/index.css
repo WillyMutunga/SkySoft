@@ -145,6 +145,31 @@ ul {
 .logo span:nth-child(3) { color: var(--accent-cyan); }
 .logo span:nth-child(4) { color: var(--accent-green); }
 
+.hamburger {
+  display: none;
+  cursor: pointer;
+}
+
+.hamburger .bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  transition: all 0.3s ease;
+  background-color: var(--text-primary);
+  border-radius: 3px;
+}
+
+.hamburger .bar.active:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.hamburger .bar.active:nth-child(2) {
+  opacity: 0;
+}
+.hamburger .bar.active:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
 .nav-links {
   display: flex;
   gap: 2rem;
@@ -572,16 +597,26 @@ footer {
   .page-hero h1 {
     font-size: 2.5rem;
   }
+  .hamburger {
+    display: block;
+  }
   .navbar .nav-container {
-    flex-direction: column;
-    padding: 1rem;
+    flex-wrap: wrap;
   }
   .nav-links {
+    flex-direction: column;
+    width: 100%;
     margin-top: 1rem;
+    display: none;
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+    gap: 1.5rem;
+  }
+  .nav-links.open {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
   }
   
   .service-card[style*="flex-direction"] {

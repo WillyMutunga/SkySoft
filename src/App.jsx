@@ -15,6 +15,7 @@ const ScrollToTop = () => {
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -25,21 +26,30 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const closeMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
         <div className="logo">
-          <Link style={{ display: 'flex', alignItems: 'center', gap: '10px' }} to="/">
+          <Link style={{ display: 'flex', alignItems: 'center', gap: '10px' }} to="/" onClick={closeMenu}>
             <img src="/assets/images/logo.jpg" alt="SkySoft Logo" className="logo-img" />
             <span>Sky</span><span>Soft</span> <span>Systems</span>
           </Link>
         </div>
-        <div className="nav-links">
-          <Link to="/" className={pathname === '/' ? 'active' : ''}>Home</Link>
-          <a href="/#about">About Us</a>
-          <a href="/#services">Services</a>
-          <Link to="/solutions" className={pathname === '/solutions' ? 'active' : ''}>Solutions</Link>
-          <Link to="/contact" className={pathname === '/contact' ? 'active' : ''}>Contact</Link>
+        
+        <div className="hamburger" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <span className={isMobileMenuOpen ? 'bar active' : 'bar'}></span>
+          <span className={isMobileMenuOpen ? 'bar active' : 'bar'}></span>
+          <span className={isMobileMenuOpen ? 'bar active' : 'bar'}></span>
+        </div>
+
+        <div className={`nav-links ${isMobileMenuOpen ? 'open' : ''}`}>
+          <Link to="/" className={pathname === '/' ? 'active' : ''} onClick={closeMenu}>Home</Link>
+          <a href="/#about" onClick={closeMenu}>About Us</a>
+          <a href="/#services" onClick={closeMenu}>Services</a>
+          <Link to="/solutions" className={pathname === '/solutions' ? 'active' : ''} onClick={closeMenu}>Solutions</Link>
+          <Link to="/contact" className={pathname === '/contact' ? 'active' : ''} onClick={closeMenu}>Contact</Link>
         </div>
       </div>
     </nav>
