@@ -205,26 +205,16 @@ ul {
   z-index: 2;
 }
 
-.hero h1 {
-  font-size: 4.5rem;
-  margin-bottom: 1.5rem;
-  color: #ffffff; /* White text to pop */
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+.hero-title {
+  font-size: 6rem;
 }
 
-.hero h1 .logo-text {
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  text-shadow: none; /* Let gradient shine */
+.subtitle {
+  font-size: 2rem;
 }
 
-.hero p {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.2rem;
-  color: #e2e8f0; /* Light slate */
-  margin-bottom: 2.5rem;
+.hero-description {
+  font-size: 1.25rem;
 }
 
 /* About Section Grid */
@@ -570,14 +560,28 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .hero h1 {
+  .hero-title {
     font-size: 2.5rem;
+  }
+  .subtitle {
+    font-size: 1.5rem;
+  }
+  .hero-description {
+    font-size: 1rem;
   }
   .page-hero h1 {
     font-size: 2.5rem;
   }
+  .navbar .nav-container {
+    flex-direction: column;
+    padding: 1rem;
+  }
   .nav-links {
-    display: none;
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
   }
   
   .service-card[style*="flex-direction"] {

@@ -7,11 +7,11 @@ const Home = () => {
       <header className="hero">
         <div className="hero-bg"></div>
         <div className="container hero-content">
-          <h1 className="hero-title" style={{ fontSize: '6rem', marginBottom: '1rem', fontWeight: 800 }}>
+          <h1 className="hero-title" style={{ marginBottom: '1rem', fontWeight: 800 }}>
             <span className="text-gradient">SkySoft Systems</span>
           </h1>
-          <h2 className="subtitle" style={{ color: '#ffffff', textShadow: '0 4px 15px rgba(0,0,0,0.5)', fontSize: '2rem', marginBottom: '2rem', fontWeight: 600 }}>End-to-end digital & networking solutions</h2>
-          <p className="hero-description" style={{ color: '#ffffff', textShadow: '0 4px 15px rgba(0,0,0,0.5)', fontSize: '1.25rem', fontFamily: "'JetBrains Mono', monospace", marginBottom: '2.5rem' }}>
+          <h2 className="subtitle" style={{ color: '#ffffff', textShadow: '0 4px 15px rgba(0,0,0,0.5)', marginBottom: '2rem', fontWeight: 600 }}>End-to-end digital & networking solutions</h2>
+          <p className="hero-description" style={{ color: '#ffffff', textShadow: '0 4px 15px rgba(0,0,0,0.5)', fontFamily: "'JetBrains Mono', monospace", marginBottom: '2.5rem' }}>
             We Build Modern Software, Cloud, And Enterprise Networking.
           </p>
           <Link to="/solutions" className="btn btn-primary">Explore Solutions</Link>
