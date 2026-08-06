@@ -1,0 +1,87 @@
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import Home from './pages/Home';
+import Solutions from './pages/Solutions';
+import Contact from './pages/Contact';
+import useReveal from './hooks/useReveal';
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
+const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+      <div className="nav-container">
+        <div className="logo">
+          <Link style={{ display: 'flex', alignItems: 'center', gap: '10px' }} to="/">
+            <img src="/assets/images/logo.jpg" alt="SkySoft Logo" className="logo-img" />
+            <span>Sky</span><span>Soft</span> <span>Systems</span>
+          </Link>
+        </div>
+        <div className="nav-links">
+          <Link to="/" className={pathname === '/' ? 'active' : ''}>Home</Link>
+          <a href="/#about">About Us</a>
+          <a href="/#services">Services</a>
+          <Link to="/solutions" className={pathname === '/solutions' ? 'active' : ''}>Solutions</Link>
+          <Link to="/contact" className={pathname === '/contact' ? 'active' : ''}>Contact</Link>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+const Footer = () => (
+  <footer>
+    <div className="container footer-content">
+      <div className="logo">
+        <img src="/assets/images/logo.jpg" alt="SkySoft Logo" className="logo-img" />
+        <span>Sky</span><span>Soft</span> <span>Systems</span>
+      </div>
+      <p className="copyright">&copy; 2026 SkySoft Systems. All rights reserved.</p>
+    </div>
+  </footer>
+);
+
+// We need a wrapper inside Router to use the custom hook since it uses useLocation
+const AppContent = () => {
+  useReveal(); // Initialize reveal animations on every route change
+
+  return (
+    <>
+      <ScrollToTop />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/solutions" element={<Solutions />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+      <Footer />
+    </>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+export default App;
