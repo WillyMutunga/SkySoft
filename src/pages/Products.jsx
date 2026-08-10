@@ -13,7 +13,6 @@ const Products = () => {
         productsData.push({ id: doc.id, ...doc.data() });
       });
       
-      // Safe sorting logic
       productsData.sort((a, b) => {
         const timeA = a.createdAt?.seconds || 0;
         const timeB = b.createdAt?.seconds || 0;
@@ -30,7 +29,6 @@ const Products = () => {
     return () => unsubscribe();
   }, []);
 
-  // Helper to map themes to accent colors
   const getThemeColors = (theme) => {
     switch (theme) {
       case 'purple': return { accent: 'var(--accent-purple)', bg: 'rgba(139, 92, 246, 0.1)', text: '#fff' };
@@ -48,7 +46,7 @@ const Products = () => {
         </div>
       </header>
 
-      <section className="services container" style={{ marginTop: '-4rem', position: 'relative', zIndex: 2, marginBottom: '6rem', minHeight: '50vh' }}>
+      <section className="container" style={{ marginTop: '-4rem', position: 'relative', zIndex: 2, marginBottom: '6rem', minHeight: '50vh' }}>
         
         {loading ? (
           <div style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '1.2rem', padding: '4rem' }}>
@@ -59,32 +57,60 @@ const Products = () => {
             No products available at the moment.
           </div>
         ) : (
-          <div className="services-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
             {products.map((product) => {
               const colors = getThemeColors(product.theme);
               return (
-                <div key={product.id} className="service-card reveal solution-card" style={{ background: 'var(--bg-secondary)', borderColor: 'rgba(0,0,0,0.05)' }}>
-                  <div className="card-content solution-content" style={{ width: '100%', padding: '3rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-                      <h3 style={{ color: colors.accent, fontSize: '2rem', margin: 0 }}>{product.model}</h3>
-                      <span style={{ background: colors.bg, color: colors.accent, padding: '0.5rem 1rem', borderRadius: '50px', fontWeight: 'bold' }}>
-                        {product.price}
-                      </span>
+                <div key={product.id} className="reveal" style={{ 
+                  background: 'var(--bg-secondary)', 
+                  borderRadius: '16px', 
+                  overflow: 'hidden',
+                  boxShadow: 'var(--shadow-soft)',
+                  transition: 'var(--transition)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  border: '1px solid rgba(0,0,0,0.05)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-10px)';
+                  e.currentTarget.style.boxShadow = 'var(--shadow-hover)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'var(--shadow-soft)';
+                }}
+                >
+                  {/* Image Section */}
+                  <div style={{ width: '100%', height: '250px', background: 'var(--bg-primary)', position: 'relative' }}>
+                    {product.imageUrl ? (
+                      <img src={product.imageUrl} alt={product.model} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
+                        <span>No Image Available</span>
+                      </div>
+                    )}
+                    <div style={{ position: 'absolute', top: '1rem', right: '1rem', background: colors.bg, color: colors.accent, padding: '0.4rem 1rem', borderRadius: '50px', fontWeight: 'bold', backdropFilter: 'blur(10px)', border: `1px solid ${colors.accent}40` }}>
+                      {product.price}
                     </div>
-                    <p style={{ fontSize: '1.1rem', marginTop: '1rem', marginBottom: '2rem' }}>{product.description}</p>
+                  </div>
+
+                  {/* Content Section */}
+                  <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                    <h3 style={{ color: 'var(--text-primary)', fontSize: '1.6rem', margin: '0 0 1rem 0' }}>{product.model}</h3>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '1.5rem', flexGrow: 1 }}>{product.description}</p>
                     
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '2rem', background: 'var(--bg-primary)', padding: '1.5rem', borderRadius: '12px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '2rem', background: 'var(--bg-primary)', padding: '1rem', borderRadius: '12px' }}>
                       <div>
-                        <h4 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.3rem' }}>Power Capacity</h4>
-                        <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{product.capacity}</p>
+                        <h4 style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', marginBottom: '0.2rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Capacity</h4>
+                        <p style={{ fontWeight: 'bold', fontSize: '0.95rem', color: 'var(--text-primary)', margin: 0 }}>{product.capacity}</p>
                       </div>
                       <div>
-                        <h4 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.3rem' }}>Typical Use Case</h4>
-                        <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{product.useCase}</p>
+                        <h4 style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', marginBottom: '0.2rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Use Case</h4>
+                        <p style={{ fontWeight: 'bold', fontSize: '0.95rem', color: 'var(--text-primary)', margin: 0 }}>{product.useCase}</p>
                       </div>
                     </div>
 
-                    <a href="/contact" className="btn btn-primary" style={{ background: colors.accent, color: colors.text }}>Inquire Now</a>
+                    <a href="/contact" className="btn btn-primary" style={{ background: colors.accent, color: '#fff', textAlign: 'center', width: '100%' }}>Inquire Now</a>
                   </div>
                 </div>
               );
