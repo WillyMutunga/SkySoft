@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { db, auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
@@ -17,19 +17,27 @@ const AdminDashboard = () => {
   const [useCase, setUseCase] = useState('');
   const [theme, setTheme] = useState('blue');
 
-  const fetchProducts = async () => {
-    setLoading(true);
-    const querySnapshot = await getDocs(collection(db, "products"));
-    const productsData = [];
-    querySnapshot.forEach((doc) => {
-      productsData.push({ id: doc.id, ...doc.data() });
-    });
-    setProducts(productsData);
-    setLoading(false);
-  };
-
   useEffect(() => {
-    fetchProducts();
+    setLoading(true);
+    const unsubscribe = onSnapshot(collection(db, "products"), (querySnapshot) => {
+      const productsData = [];
+      querySnapshot.forEach((doc) => {
+        productsData.push({ id: doc.id, ...doc.data() });
+      });
+      // Safe sort
+      productsData.sort((a, b) => {
+        const timeA = a.createdAt?.seconds || 0;
+        const timeB = b.createdAt?.seconds || 0;
+        return timeB - timeA;
+      });
+      setProducts(productsData);
+      setLoading(false);
+    }, (error) => {
+      console.error("Error fetching products:", error);
+      setLoading(false);
+    });
+    
+    return () => unsubscribe();
   }, []);
 
   const handleAddProduct = async (e) => {
@@ -45,7 +53,6 @@ const AdminDashboard = () => {
         createdAt: new Date()
       });
       setModel(''); setPrice(''); setDescription(''); setCapacity(''); setUseCase(''); setTheme('blue');
-      fetchProducts();
     } catch (err) {
       console.error("Error adding document: ", err);
       alert("Failed to add product");
@@ -55,7 +62,6 @@ const AdminDashboard = () => {
   const handleDelete = async (id) => {
     if(window.confirm("Are you sure you want to delete this product?")) {
       await deleteDoc(doc(db, "products", id));
-      fetchProducts();
     }
   };
 
