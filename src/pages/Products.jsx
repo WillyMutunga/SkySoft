@@ -1,6 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const Products = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        const productsData = [];
+        querySnapshot.forEach((doc) => {
+          productsData.push({ id: doc.id, ...doc.data() });
+        });
+        
+        // Sort by creation date if available (newest first)
+        productsData.sort((a, b) => {
+          if (!a.createdAt || !b.createdAt) return 0;
+          return b.createdAt.seconds - a.createdAt.seconds;
+        });
+        
+        setProducts(productsData);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // Helper to map themes to accent colors
+  const getThemeColors = (theme) => {
+    switch (theme) {
+      case 'purple': return { accent: 'var(--accent-purple)', bg: 'rgba(139, 92, 246, 0.1)', text: '#fff' };
+      case 'green': return { accent: 'var(--accent-green)', bg: 'rgba(16, 185, 129, 0.1)', text: '#000' };
+      case 'blue':
+      default: return { accent: 'var(--accent-blue)', bg: 'rgba(59, 130, 246, 0.1)', text: '#fff' };
+    }
+  };
+
   return (
     <>
       <header className="page-hero">
@@ -9,82 +50,49 @@ const Products = () => {
         </div>
       </header>
 
-      <section className="services container" style={{ marginTop: '-4rem', position: 'relative', zIndex: 2, marginBottom: '6rem' }}>
-        <div className="services-grid">
-          
-          {/* Product 1 */}
-          <div className="service-card reveal solution-card" style={{ background: 'var(--bg-secondary)', borderColor: 'rgba(0,0,0,0.05)' }}>
-            <div className="card-content solution-content" style={{ width: '100%', padding: '3rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-                <h3 className="text-gradient" style={{ fontSize: '2rem', margin: 0 }}>APC Easy UPS BV800I-MSX</h3>
-                <span style={{ background: 'rgba(59, 130, 246, 0.1)', color: 'var(--accent-blue)', padding: '0.5rem 1rem', borderRadius: '50px', fontWeight: 'bold' }}>KSh 12,500 – KSh 14,000</span>
-              </div>
-              <p style={{ fontSize: '1.1rem', marginTop: '1rem', marginBottom: '2rem' }}>Reliable battery backup and surge protection for your essential home and office devices.</p>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '2rem', background: 'var(--bg-primary)', padding: '1.5rem', borderRadius: '12px' }}>
-                <div>
-                  <h4 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.3rem' }}>Power Capacity</h4>
-                  <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>800VA / 450W</p>
-                </div>
-                <div>
-                  <h4 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.3rem' }}>Typical Use Case</h4>
-                  <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Wi-Fi routers, TVs, and small electronics</p>
-                </div>
-              </div>
-              
-              <a href="/contact" className="btn btn-primary">Inquire Now</a>
-            </div>
+      <section className="services container" style={{ marginTop: '-4rem', position: 'relative', zIndex: 2, marginBottom: '6rem', minHeight: '50vh' }}>
+        
+        {loading ? (
+          <div style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '1.2rem', padding: '4rem' }}>
+            Loading products...
           </div>
-
-          {/* Product 2 */}
-          <div className="service-card reveal solution-card" style={{ background: 'var(--bg-secondary)', borderColor: 'rgba(0,0,0,0.05)' }}>
-            <div className="card-content solution-content" style={{ width: '100%', padding: '3rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-                <h3 style={{ color: 'var(--accent-purple)', fontSize: '2rem', margin: 0 }}>APC Back-UPS BX1400UI</h3>
-                <span style={{ background: 'rgba(139, 92, 246, 0.1)', color: 'var(--accent-purple)', padding: '0.5rem 1rem', borderRadius: '50px', fontWeight: 'bold' }}>KSh 24,000 – KSh 26,000</span>
-              </div>
-              <p style={{ fontSize: '1.1rem', marginTop: '1rem', marginBottom: '2rem' }}>High-performance battery backup and protection for demanding electronics and computers.</p>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '2rem', background: 'var(--bg-primary)', padding: '1.5rem', borderRadius: '12px' }}>
-                <div>
-                  <h4 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.3rem' }}>Power Capacity</h4>
-                  <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>1400VA / 700W</p>
-                </div>
-                <div>
-                  <h4 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.3rem' }}>Typical Use Case</h4>
-                  <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Desktop computers and home entertainment systems</p>
-                </div>
-              </div>
-
-              <a href="/contact" className="btn btn-primary" style={{ background: 'var(--accent-purple)', color: '#fff' }}>Inquire Now</a>
-            </div>
+        ) : products.length === 0 ? (
+          <div style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '1.2rem', padding: '4rem' }}>
+            No products available at the moment.
           </div>
-          
-          {/* Product 3 */}
-          <div className="service-card reveal solution-card" style={{ background: 'var(--bg-secondary)', borderColor: 'rgba(0,0,0,0.05)' }}>
-            <div className="card-content solution-content" style={{ width: '100%', padding: '3rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-                <h3 style={{ color: 'var(--accent-green)', fontSize: '2rem', margin: 0 }}>APC Smart-UPS SMC1000IC</h3>
-                <span style={{ background: 'rgba(16, 185, 129, 0.1)', color: 'var(--accent-green)', padding: '0.5rem 1rem', borderRadius: '50px', fontWeight: 'bold' }}>KSh 64,000 – KSh 66,000</span>
-              </div>
-              <p style={{ fontSize: '1.1rem', marginTop: '1rem', marginBottom: '2rem' }}>Intelligent and efficient network power protection from entry level to scaleable runtime.</p>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '2rem', background: 'var(--bg-primary)', padding: '1.5rem', borderRadius: '12px' }}>
-                <div>
-                  <h4 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.3rem' }}>Power Capacity</h4>
-                  <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>1000VA / 600W</p>
-                </div>
-                <div>
-                  <h4 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.3rem' }}>Typical Use Case</h4>
-                  <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Office servers, networking racks, and hubs</p>
-                </div>
-              </div>
+        ) : (
+          <div className="services-grid">
+            {products.map((product) => {
+              const colors = getThemeColors(product.theme);
+              return (
+                <div key={product.id} className="service-card reveal solution-card" style={{ background: 'var(--bg-secondary)', borderColor: 'rgba(0,0,0,0.05)' }}>
+                  <div className="card-content solution-content" style={{ width: '100%', padding: '3rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+                      <h3 style={{ color: colors.accent, fontSize: '2rem', margin: 0 }}>{product.model}</h3>
+                      <span style={{ background: colors.bg, color: colors.accent, padding: '0.5rem 1rem', borderRadius: '50px', fontWeight: 'bold' }}>
+                        {product.price}
+                      </span>
+                    </div>
+                    <p style={{ fontSize: '1.1rem', marginTop: '1rem', marginBottom: '2rem' }}>{product.description}</p>
+                    
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '2rem', background: 'var(--bg-primary)', padding: '1.5rem', borderRadius: '12px' }}>
+                      <div>
+                        <h4 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.3rem' }}>Power Capacity</h4>
+                        <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{product.capacity}</p>
+                      </div>
+                      <div>
+                        <h4 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.3rem' }}>Typical Use Case</h4>
+                        <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{product.useCase}</p>
+                      </div>
+                    </div>
 
-              <a href="/contact" className="btn btn-primary" style={{ background: 'var(--accent-green)', color: '#000' }}>Inquire Now</a>
-            </div>
+                    <a href="/contact" className="btn btn-primary" style={{ background: colors.accent, color: colors.text }}>Inquire Now</a>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-
-        </div>
+        )}
       </section>
     </>
   );
