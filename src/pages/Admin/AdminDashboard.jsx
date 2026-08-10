@@ -15,7 +15,7 @@ const AdminDashboard = () => {
   const [description, setDescription] = useState('');
   const [capacity, setCapacity] = useState('');
   const [useCase, setUseCase] = useState('');
-  const [theme, setTheme] = useState('blue'); // blue, purple, green
+  const [theme, setTheme] = useState('blue');
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -44,9 +44,7 @@ const AdminDashboard = () => {
         theme,
         createdAt: new Date()
       });
-      // Reset form
       setModel(''); setPrice(''); setDescription(''); setCapacity(''); setUseCase(''); setTheme('blue');
-      // Refresh list
       fetchProducts();
     } catch (err) {
       console.error("Error adding document: ", err);
@@ -67,22 +65,22 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div style={{ padding: '4rem 2rem', background: 'var(--bg-primary)', minHeight: '100vh', color: '#fff' }}>
+    <div style={{ padding: '8rem 2rem 4rem', background: 'var(--bg-primary)', minHeight: '100vh', color: 'var(--text-primary)' }}>
       <div className="container" style={{ maxWidth: '1000px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
-          <h1>Admin Dashboard</h1>
+          <h1 style={{ color: 'var(--text-primary)' }}>Admin Dashboard</h1>
           <button onClick={handleLogout} className="btn" style={{ background: 'transparent', border: '1px solid var(--accent-blue)', color: 'var(--accent-blue)' }}>Logout</button>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '3rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem' }}>
           
           {/* Add Product Form */}
-          <div className="service-card" style={{ padding: '2rem', background: 'var(--bg-secondary)', borderRadius: '12px', height: 'fit-content' }}>
-            <h3 style={{ marginBottom: '1.5rem' }}>Add New Product</h3>
+          <div className="service-card" style={{ padding: '2rem', background: 'var(--bg-secondary)', borderRadius: '12px', height: 'fit-content', boxShadow: 'var(--shadow-soft)' }}>
+            <h3 style={{ marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Add New Product</h3>
             <form onSubmit={handleAddProduct} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <input type="text" placeholder="Model Name (e.g. APC Smart-UPS)" value={model} onChange={e => setModel(e.target.value)} required style={inputStyle} />
               <input type="text" placeholder="Price (e.g. KSh 12,500)" value={price} onChange={e => setPrice(e.target.value)} required style={inputStyle} />
-              <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} required style={{...inputStyle, minHeight: '80px'}} />
+              <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} required style={{...inputStyle, minHeight: '80px', resize: 'vertical'}} />
               <input type="text" placeholder="Power Capacity (e.g. 800VA / 450W)" value={capacity} onChange={e => setCapacity(e.target.value)} required style={inputStyle} />
               <input type="text" placeholder="Typical Use Case" value={useCase} onChange={e => setUseCase(e.target.value)} required style={inputStyle} />
               <select value={theme} onChange={e => setTheme(e.target.value)} style={inputStyle}>
@@ -96,17 +94,17 @@ const AdminDashboard = () => {
 
           {/* Product List */}
           <div>
-            <h3 style={{ marginBottom: '1.5rem' }}>Manage Products</h3>
+            <h3 style={{ marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Manage Products</h3>
             {loading ? <p>Loading products...</p> : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {products.length === 0 && <p style={{ color: 'var(--text-secondary)' }}>No products found. Add one!</p>}
                 {products.map(product => (
-                  <div key={product.id} style={{ background: 'var(--bg-secondary)', padding: '1.5rem', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div key={product.id} style={{ background: 'var(--bg-secondary)', padding: '1.5rem', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: 'var(--shadow-soft)' }}>
                     <div>
-                      <h4 style={{ fontSize: '1.2rem', marginBottom: '0.3rem' }}>{product.model}</h4>
+                      <h4 style={{ fontSize: '1.2rem', marginBottom: '0.3rem', color: 'var(--text-primary)' }}>{product.model}</h4>
                       <p style={{ color: 'var(--accent-blue)', fontWeight: 'bold' }}>{product.price}</p>
                     </div>
-                    <button onClick={() => handleDelete(product.id)} style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer' }}>Delete</button>
+                    <button onClick={() => handleDelete(product.id)} style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Delete</button>
                   </div>
                 ))}
               </div>
@@ -120,7 +118,14 @@ const AdminDashboard = () => {
 };
 
 const inputStyle = {
-  width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: '#fff'
+  width: '100%', 
+  padding: '0.75rem', 
+  borderRadius: '8px', 
+  border: '1px solid rgba(0,0,0,0.1)', 
+  background: 'var(--bg-primary)', 
+  color: 'var(--text-primary)',
+  fontFamily: 'inherit',
+  fontSize: '0.95rem'
 };
 
 export default AdminDashboard;
