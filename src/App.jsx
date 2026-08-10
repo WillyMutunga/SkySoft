@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Solutions from './pages/Solutions';
+import Products from './pages/Products';
 import Contact from './pages/Contact';
 import useReveal from './hooks/useReveal';
 
@@ -48,6 +49,7 @@ const Navbar = () => {
           <Link to="/" className={pathname === '/' ? 'active' : ''} onClick={closeMenu}>Home</Link>
           <a href="/#about" onClick={closeMenu}>About Us</a>
           <a href="/#services" onClick={closeMenu}>Services</a>
+          <Link to="/products" className={pathname === '/products' ? 'active' : ''} onClick={closeMenu}>Products</Link>
           <Link to="/solutions" className={pathname === '/solutions' ? 'active' : ''} onClick={closeMenu}>Solutions</Link>
           <Link to="/contact" className={pathname === '/contact' ? 'active' : ''} onClick={closeMenu}>Contact</Link>
         </div>
@@ -78,6 +80,7 @@ const AppContent = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/solutions" element={<Solutions />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
