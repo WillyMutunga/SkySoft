@@ -1,32 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { collection, onSnapshot } from 'firebase/firestore';
-import { db } from '../firebase';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "products"), (querySnapshot) => {
-      const productsData = [];
-      querySnapshot.forEach((doc) => {
-        productsData.push({ id: doc.id, ...doc.data() });
-      });
-      
-      productsData.sort((a, b) => {
-        const timeA = a.createdAt?.seconds || 0;
-        const timeB = b.createdAt?.seconds || 0;
-        return timeB - timeA;
-      });
-      
-      setProducts(productsData);
-      setLoading(false);
-    }, (error) => {
-      console.error("Error fetching products:", error);
-      setLoading(false);
-    });
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/products/');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const productsData = await response.json();
+        setProducts(productsData);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => unsubscribe();
+    fetchProducts();
   }, []);
 
   const getThemeColors = (theme) => {

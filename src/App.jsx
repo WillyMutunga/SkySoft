@@ -4,9 +4,6 @@ import Home from './pages/Home';
 import Solutions from './pages/Solutions';
 import Products from './pages/Products';
 import Contact from './pages/Contact';
-import AdminLogin from './pages/Admin/AdminLogin';
-import AdminDashboard from './pages/Admin/AdminDashboard';
-import ProtectedRoute from './components/ProtectedRoute';
 import useReveal from './hooks/useReveal';
 
 const ScrollToTop = () => {
@@ -86,8 +83,6 @@ const AppContent = () => {
         <Route path="/products" element={<Products />} />
         <Route path="/solutions" element={<Solutions />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
       </Routes>
       <Footer />
     </>
