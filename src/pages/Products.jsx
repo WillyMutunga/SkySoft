@@ -81,9 +81,9 @@ const Products = () => {
                 }}
                 >
                   {/* Image Section */}
-                  <div style={{ width: '100%', height: '250px', background: 'var(--bg-primary)', position: 'relative' }}>
+                  <div style={{ width: '100%', height: '250px', background: 'var(--bg-secondary)', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
                     {product.imageUrl ? (
-                      <img src={product.imageUrl} alt={product.model} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={product.imageUrl} alt={product.model} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
                     ) : (
                       <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
                         <span>No Image Available</span>
