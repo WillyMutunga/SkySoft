@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, addDoc, updateDoc, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { signOut } from 'firebase/auth';
-import { db, auth, storage } from '../../firebase';
+import { db, auth } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
@@ -19,7 +18,6 @@ const AdminDashboard = () => {
   const [capacity, setCapacity] = useState('');
   const [useCase, setUseCase] = useState('');
   const [theme, setTheme] = useState('blue');
-  const [imageFile, setImageFile] = useState(null);
   const [currentImageUrl, setCurrentImageUrl] = useState('');
 
   useEffect(() => {
@@ -48,7 +46,6 @@ const AdminDashboard = () => {
     setEditId(null);
     setModel(''); setPrice(''); setDescription(''); 
     setCapacity(''); setUseCase(''); setTheme('blue');
-    setImageFile(null);
     setCurrentImageUrl('');
   };
 
@@ -61,7 +58,6 @@ const AdminDashboard = () => {
     setUseCase(product.useCase);
     setTheme(product.theme || 'blue');
     setCurrentImageUrl(product.imageUrl || '');
-    setImageFile(null); // Reset any selected file
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -69,15 +65,6 @@ const AdminDashboard = () => {
     e.preventDefault();
     setUploading(true);
     try {
-      let imageUrlToSave = currentImageUrl; // Default to existing URL if editing and not replacing
-
-      // If they selected a new file, upload it first
-      if (imageFile) {
-        const storageRef = ref(storage, `products/${Date.now()}_${imageFile.name}`);
-        const uploadTask = await uploadBytesResumable(storageRef, imageFile);
-        imageUrlToSave = await getDownloadURL(uploadTask.ref);
-      }
-
       const productData = {
         model,
         price,
@@ -85,7 +72,7 @@ const AdminDashboard = () => {
         capacity,
         useCase,
         theme,
-        imageUrl: imageUrlToSave
+        imageUrl: currentImageUrl
       };
 
       if (editId) {
@@ -104,7 +91,7 @@ const AdminDashboard = () => {
       resetForm();
     } catch (err) {
       console.error("Error saving document: ", err);
-      alert("Failed to save product. If you're uploading an image, ensure you've enabled Firebase Storage.");
+      alert("Failed to save product.");
     } finally {
       setUploading(false);
     }
@@ -142,9 +129,9 @@ const AdminDashboard = () => {
               <input type="text" placeholder="Model Name (e.g. APC Smart-UPS)" value={model} onChange={e => setModel(e.target.value)} required style={inputStyle} />
               
               <div>
-                <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.3rem', display: 'block' }}>Product Image</label>
+                <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.3rem', display: 'block' }}>Product Image Link (Optional)</label>
                 {currentImageUrl && <div style={{ marginBottom: '0.5rem' }}><img src={currentImageUrl} alt="Current" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }} /></div>}
-                <input type="file" accept="image/*" onChange={e => setImageFile(e.target.files[0])} style={{...inputStyle, padding: '0.5rem'}} />
+                <input type="url" placeholder="Paste an image URL here (e.g. from Google Images)" value={currentImageUrl} onChange={e => setCurrentImageUrl(e.target.value)} style={inputStyle} />
               </div>
 
               <input type="text" placeholder="Price (e.g. KSh 12,500)" value={price} onChange={e => setPrice(e.target.value)} required style={inputStyle} />
@@ -158,7 +145,7 @@ const AdminDashboard = () => {
               </select>
               
               <button type="submit" className="btn btn-primary" style={{ marginTop: '1rem' }} disabled={uploading}>
-                {uploading ? 'Saving & Uploading...' : (editId ? 'Update Product' : 'Add Product')}
+                {uploading ? 'Saving...' : (editId ? 'Update Product' : 'Add Product')}
               </button>
             </form>
           </div>
