@@ -24,7 +24,7 @@ jobs:
     - name: Build project
       run: npm run build
       
-    - name: Sync files to HostPinnacle
+    - name: Sync React Frontend to HostPinnacle
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_SERVER }}
@@ -32,3 +32,18 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
         server-dir: ./
+
+    - name: Sync Django Backend to HostPinnacle
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./backend/
+        server-dir: ./backend_app/
+        exclude: |
+          **/.git*
+          **/.git*/**
+          db.sqlite3
+          venv/**
+          __pycache__/**
