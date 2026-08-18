@@ -33,17 +33,22 @@ jobs:
         local-dir: ./dist/
         server-dir: ./
 
-    - name: Sync Django Backend to HostPinnacle
+    - name: Sync Django Backend Payload to HostPinnacle
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./backend/
-        server-dir: ./backend_app/
+        server-dir: ./backend_payload/
         exclude: |
           **/.git*
           **/.git*/**
           db.sqlite3
           venv/**
           __pycache__/**
+
+    - name: Move Backend Files via PHP and Restart App
+      run: |
+        echo "Triggering PHP script to move backend payload to /backend_app/"
+        curl -f -s https://skysoftsystems.co.ke/deploy_backend.php || echo "Failed to trigger deploy_backend.php"
