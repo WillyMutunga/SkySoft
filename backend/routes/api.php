@@ -7,6 +7,9 @@ use App\Http\Controllers\AuthController;
 
 Route::post('/token', [AuthController::class, 'login']);
 
+Route::get('/logs', function () {
+    return file_get_contents(storage_path('logs/laravel.log'));
+});
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 

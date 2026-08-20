@@ -24,9 +24,20 @@ jobs:
     - name: Build project
       run: npm run build
 
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        
+    - name: Install PHP Dependencies
+      run: |
+        cd backend
+        composer install --no-dev --optimize-autoloader
+        cd ..
+
     - name: Prepare Deployment Package
       run: |
-        zip -r dist/backend.zip backend/*
+        zip -r dist/backend.zip backend/* backend/.* -x "backend/.git*" "backend/.env"
         cp public/deploy_backend.php dist/
       
     - name: Deploy to cPanel via FTP

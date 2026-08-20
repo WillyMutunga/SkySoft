@@ -25,10 +25,7 @@ if ($zip->open($zip_path) === TRUE) {
     die("Failed to extract ZIP.");
 }
 
-// 2. Composer Install
-echo "Running Composer install...<br>";
-$output = shell_exec("cd $backend_dir && composer install --no-dev --optimize-autoloader 2>&1");
-echo "<pre>$output</pre>";
+// 2. Composer Install (Skipped because it's done in GitHub Actions)
 
 // 3. Setup SQLite Database
 $db_file = $backend_dir . '/database/database.sqlite';
@@ -48,29 +45,36 @@ DB_DATABASE=" . $db_file . "
 ";
 file_put_contents($backend_dir . '/.env', trim($env_content));
 
-// 5. Run Migrations
+// 5. Run Migrations and create admin user programmatically
 echo "Running Migrations...<br>";
-$output = shell_exec("cd $backend_dir && php artisan migrate --force 2>&1");
-echo "<pre>$output</pre>";
-
-// 6. Create Admin User
-echo "Setting up admin user...<br>";
 $setup_script = "
+use Illuminate\Support\Facades\Artisan;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-if (!User::where('email', 'wmutunga003@gmail.com')->exists()) {
-    User::create([
-        'name' => 'Willy Mutunga',
-        'email' => 'wmutunga003@gmail.com',
-        'password' => Hash::make('William#20'),
-    ]);
-    echo 'User created.';
-} else {
-    echo 'User already exists.';
+
+try {
+    Artisan::call('migrate', ['--force' => true]);
+    echo '<pre>' . Artisan::output() . '</pre>';
+
+    if (!User::where('email', 'wmutunga003@gmail.com')->exists()) {
+        User::create([
+            'name' => 'Willy Mutunga',
+            'email' => 'wmutunga003@gmail.com',
+            'password' => Hash::make('William#20'),
+        ]);
+        echo 'User created.<br>';
+    } else {
+        echo 'User already exists.<br>';
+    }
+} catch (\Exception \$e) {
+    echo 'Error: ' . \$e->getMessage();
 }
 ";
+
 file_put_contents($backend_dir . '/setup_user.php', "<?php require __DIR__.'/vendor/autoload.php'; \$app = require_once __DIR__.'/bootstrap/app.php'; \$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap(); " . $setup_script);
-echo shell_exec("cd $backend_dir && php setup_user.php 2>&1");
+
+// Include it directly so it runs in the same PHP process!
+require_once $backend_dir . '/setup_user.php';
 
 // 7. Setup public API routing
 $api_dir = __DIR__ . '/api';
