@@ -19,7 +19,7 @@ const AdminDashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('/api/products/');
+      const response = await fetch('/api/products');
       if (!response.ok) throw new Error('Failed to fetch products');
       const data = await response.json();
       setProducts(data);
@@ -60,8 +60,8 @@ const AdminDashboard = () => {
     e.preventDefault();
     try {
       const url = editingId 
-        ? `/api/products/${editingId}/` 
-        : '/api/products/';
+        ? `/api/products/${editingId}` 
+        : '/api/products';
       
       const method = editingId ? 'PUT' : 'POST';
       
@@ -108,7 +108,7 @@ const AdminDashboard = () => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     
     try {
-      const response = await fetch(`/api/products/${id}/`, {
+      const response = await fetch(`/api/products/${id}`, {
         method: 'DELETE',
         headers: getAuthHeaders(),
       });

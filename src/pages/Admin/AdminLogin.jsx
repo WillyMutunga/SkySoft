@@ -12,7 +12,7 @@ const AdminLogin = () => {
     setError('');
     
     try {
-      const response = await fetch('/api/token/', {
+      const response = await fetch('/api/token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
