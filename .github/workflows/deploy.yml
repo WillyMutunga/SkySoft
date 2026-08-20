@@ -32,7 +32,7 @@ jobs:
     - name: Install PHP Dependencies
       run: |
         cd backend
-        composer install --no-dev --optimize-autoloader
+        composer update --no-dev --optimize-autoloader --no-audit --no-interaction
         cd ..
 
     - name: Prepare Deployment Package
