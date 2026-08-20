@@ -1,11 +1,11 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from .models import Product
 from .serializers import ProductSerializer
 
-class ProductViewSet(viewsets.ReadOnlyModelViewSet):
+class ProductViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows products to be viewed.
-    We make it ReadOnly because adding/editing will be done via Django Admin.
+    API endpoint that allows products to be viewed and edited.
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
