@@ -7,7 +7,7 @@ on:
 
 jobs:
   web-deploy:
-    name: Build, Prepare Database & FTP Deploy
+    name: Build, Package ZIP & Fast FTP Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -17,7 +17,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, sqlite3, fileinfo, curl, json
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, sqlite3, fileinfo, curl, json, zip
           coverage: none
 
       - name: Setup Environment File & Database
@@ -47,17 +47,21 @@ jobs:
           php artisan route:clear || true
           php artisan view:clear || true
 
-      - name: Deploy to cPanel via FTP
+      - name: Create Fast ZIP Bundle
+        run: |
+          mkdir -p deploy_dist
+          zip -r deploy_dist/skysoft_app.zip . -x ".git*" "deploy_dist*" "node_modules*" "tests*" "README.md"
+          cp unzip.php deploy_dist/
+
+      - name: Deploy ZIP Bundle to cPanel via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
+          local-dir: ./deploy_dist/
           server-dir: /
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            **/tests/**
-            README.md
+
+      - name: Trigger Server-Side ZIP Extraction
+        run: |
+          curl -s -k "https://skysoftsystems.co.ke/unzip.php" || true
