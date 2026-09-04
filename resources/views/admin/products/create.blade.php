@@ -14,7 +14,7 @@
         <a href="{{ route('admin.products.index') }}" class="text-xs font-semibold text-slate-500 hover:text-slate-800">&larr; Back to Catalog</a>
     </div>
 
-    <form action="{{ route('admin.products.store') }}" method="POST" class="space-y-6">
+    <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -56,10 +56,21 @@
 
         <input type="hidden" name="currency" value="KES">
 
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Image URL</label>
-            <input type="url" name="image_url" value="{{ old('image_url') }}" placeholder="https://images.unsplash.com/..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500">
-            <p class="text-[11px] text-slate-400 mt-1">Provide a high-resolution Unsplash or hosted image URL.</p>
+        <!-- Hybrid Image Upload Section -->
+        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider text-emerald-600">Product Image (Choose File OR Enter URL)</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Upload Photo from Computer / Phone</label>
+                    <input type="file" name="image_file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">OR External Image URL</label>
+                    <input type="url" name="image_url" value="{{ old('image_url') }}" placeholder="https://images.unsplash.com/..." class="w-full px-4 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+                </div>
+            </div>
         </div>
 
         <div>

@@ -7,12 +7,64 @@
     <meta name="description" content="@yield('meta_description', 'SkySoft Systems provides smart cloud POS systems, UPS power backup, enterprise cybersecurity, structured networking, and bespoke software solutions in Nairobi, Kenya.')">
     <link rel="icon" type="image/png" href="https://img.icons8.com/color/96/server.png">
     
+    <!-- OpenGraph / Social Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@yield('title', 'SkySoft Systems | Smart Business Solutions & IT Infrastructure Kenya')">
+    <meta property="og:description" content="@yield('meta_description', 'SkySoft Systems provides smart cloud POS systems, UPS power backup, enterprise cybersecurity, structured networking, and bespoke software in Nairobi, Kenya.')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:site_name" content="SkySoft Systems">
+
+    <!-- JSON-LD Structured SEO Schema (LocalBusiness & Organization in Nairobi, Kenya) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ITService",
+      "name": "SkySoft Systems",
+      "image": "https://skysoftsystems.co.ke/assets/images/logo.jpg",
+      "@id": "https://skysoftsystems.co.ke",
+      "url": "https://skysoftsystems.co.ke",
+      "telephone": "{{ $companySettings['company_phone'] ?? '+254712345678' }}",
+      "priceRange": "KES",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Nairobi CBD",
+        "addressLocality": "Nairobi",
+        "addressRegion": "Nairobi County",
+        "postalCode": "00100",
+        "addressCountry": "KE"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -1.286389,
+        "longitude": 36.817223
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "opens": "08:00",
+        "closes": "18:00"
+      },
+      "sameAs": [
+        "{{ $companySettings['facebook_url'] ?? '#' }}",
+        "{{ $companySettings['linkedin_url'] ?? '#' }}",
+        "{{ $companySettings['twitter_url'] ?? '#' }}"
+      ]
+    }
+    </script>
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS CDN for instant styling -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -43,13 +95,13 @@
         }
     </script>
     
-    <!-- Alpine.js for interactive state -->
+    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
 
     <style>
         [x-cloak] { display: none !important; }
         .glassmorphism {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.90);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
@@ -70,17 +122,17 @@
             <div class="flex items-center space-x-6">
                 <span class="flex items-center text-emerald-400">
                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    Nairobi, Kenya &bull; Fast Onsite & Remote Support
+                    {{ $companySettings['office_address'] ?? 'Nairobi, Kenya' }} &bull; Fast Onsite & Remote Support
                 </span>
                 <span class="flex items-center">
                     <svg class="w-4 h-4 mr-1.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    <a href="mailto:info@skysoftsystems.co.ke" class="hover:text-emerald-400 transition">info@skysoftsystems.co.ke</a>
+                    <a href="mailto:{{ $companySettings['company_email'] ?? 'info@skysoftsystems.co.ke' }}" class="hover:text-emerald-400 transition">{{ $companySettings['company_email'] ?? 'info@skysoftsystems.co.ke' }}</a>
                 </span>
             </div>
             <div class="flex items-center space-x-4">
-                <a href="https://wa.me/254712345678" target="_blank" class="flex items-center text-emerald-400 hover:text-emerald-300 font-medium">
+                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $companySettings['company_whatsapp'] ?? '254712345678') }}" target="_blank" class="flex items-center text-emerald-400 hover:text-emerald-300 font-medium">
                     <svg class="w-3.5 h-3.5 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 1.771.815 2.796.815 3.182 0 5.768-2.587 5.768-5.767 0-3.18-2.586-5.767-5.768-5.767zm9.969 5.768c0 5.509-4.482 9.99-9.969 9.99-1.748 0-3.38-.456-4.806-1.254l-5.225 1.369 1.393-5.093c-.899-1.498-1.362-3.21-1.362-5.012 0-5.509 4.482-9.99 9.969-9.99 5.487 0 9.969 4.481 9.969 9.99z"/></svg>
-                    WhatsApp: +254 712 345 678
+                    WhatsApp: {{ $companySettings['company_phone'] ?? '+254 712 345 678' }}
                 </a>
                 <span class="text-slate-600">|</span>
                 <a href="{{ route('admin.login') }}" class="text-slate-400 hover:text-white transition">Admin Portal</a>
@@ -144,9 +196,9 @@
             <a href="{{ route('contact') }}" class="block px-3 py-2.5 rounded-lg text-base font-medium {{ request()->routeIs('contact') ? 'bg-emerald-50 text-emerald-600 font-semibold' : 'text-slate-700 hover:bg-slate-50' }}">Contact</a>
             <div class="pt-4 border-t border-slate-100 flex flex-col space-y-2">
                 <a href="{{ route('contact') }}" class="w-full text-center px-4 py-3 rounded-xl bg-emerald-600 text-white font-semibold text-sm">Request Free Consultation</a>
-                <a href="tel:+254712345678" class="w-full text-center px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-medium text-sm flex items-center justify-center">
+                <a href="tel:{{ $companySettings['company_phone'] ?? '+254712345678' }}" class="w-full text-center px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-medium text-sm flex items-center justify-center">
                     <svg class="w-4 h-4 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                    Call: +254 712 345 678
+                    Call: {{ $companySettings['company_phone'] ?? '+254 712 345 678' }}
                 </a>
             </div>
         </div>
@@ -204,7 +256,7 @@
     </main>
 
     <!-- Floating WhatsApp Action Button -->
-    <a href="https://wa.me/254712345678?text=Hello%20SkySoft%20Systems,%20I%20would%20like%20to%20inquire%20about%20your%20IT%20solutions" 
+    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $companySettings['company_whatsapp'] ?? '254712345678') }}?text={{ urlencode('Hello SkySoft Systems, I would like to inquire about your IT & Power solutions.') }}" 
        target="_blank" 
        class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-3.5 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 flex items-center justify-center group"
        title="Chat with us on WhatsApp">
@@ -266,15 +318,15 @@
                     <ul class="space-y-3 text-sm">
                         <li class="flex items-start">
                             <svg class="w-5 h-5 text-emerald-400 mr-2.5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                            <span>Nairobi, Kenya</span>
+                            <span>{{ $companySettings['office_address'] ?? 'Nairobi, Kenya' }}</span>
                         </li>
                         <li class="flex items-center">
                             <svg class="w-5 h-5 text-emerald-400 mr-2.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                            <a href="tel:+254712345678" class="hover:text-emerald-400 transition">+254 712 345 678</a>
+                            <a href="tel:{{ $companySettings['company_phone'] ?? '+254712345678' }}" class="hover:text-emerald-400 transition">{{ $companySettings['company_phone'] ?? '+254 712 345 678' }}</a>
                         </li>
                         <li class="flex items-center">
                             <svg class="w-5 h-5 text-emerald-400 mr-2.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                            <a href="mailto:info@skysoftsystems.co.ke" class="hover:text-emerald-400 transition">info@skysoftsystems.co.ke</a>
+                            <a href="mailto:{{ $companySettings['company_email'] ?? 'info@skysoftsystems.co.ke' }}" class="hover:text-emerald-400 transition">{{ $companySettings['company_email'] ?? 'info@skysoftsystems.co.ke' }}</a>
                         </li>
                     </ul>
                 </div>

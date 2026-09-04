@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Inquiry;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class InquiryController extends Controller
 {
@@ -50,6 +51,41 @@ class InquiryController extends Controller
         $inquiry->update($validated);
 
         return redirect()->back()->with('success', 'Inquiry status updated successfully.');
+    }
+
+    public function exportCsv()
+    {
+        $inquiries = Inquiry::with('product')->latest()->get();
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="skysoft_inquiries_' . date('Y-m-d') . '.csv"',
+        ];
+
+        $callback = function () use ($inquiries) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, ['ID', 'Date', 'Name', 'Email', 'Phone', 'Company', 'Product', 'Subject', 'Status', 'Message', 'Admin Notes']);
+
+            foreach ($inquiries as $row) {
+                fputcsv($handle, [
+                    $row->id,
+                    $row->created_at->format('Y-m-d H:i:s'),
+                    $row->name,
+                    $row->email,
+                    $row->phone ?? '',
+                    $row->company ?? '',
+                    $row->product ? $row->product->name : '',
+                    $row->subject ?? '',
+                    $row->status,
+                    $row->message,
+                    $row->admin_notes ?? '',
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return new StreamedResponse($callback, 200, $headers);
     }
 
     public function destroy($id)

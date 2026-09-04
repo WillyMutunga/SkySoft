@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Inquiry;
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -26,7 +27,25 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 2. Seed Initial Products
+        // 2. Seed Default Company Settings
+        $defaultSettings = [
+            'company_phone' => '+254 712 345 678',
+            'company_whatsapp' => '254712345678',
+            'company_email' => 'info@skysoftsystems.co.ke',
+            'sales_email' => 'sales@skysoftsystems.co.ke',
+            'office_address' => 'Nairobi, Kenya',
+            'working_hours' => 'Mon - Sat: 8:00 AM - 6:00 PM',
+            'tagline' => 'Smart IT Systems & Power Infrastructure Kenya',
+            'facebook_url' => 'https://facebook.com',
+            'linkedin_url' => 'https://linkedin.com',
+            'twitter_url' => 'https://x.com',
+        ];
+
+        foreach ($defaultSettings as $key => $val) {
+            Setting::updateOrCreate(['key' => $key], ['value' => $val, 'group' => 'general']);
+        }
+
+        // 3. Seed Initial Products
         $products = [
             [
                 'name' => 'Smart Cloud POS All-in-One Touch Terminal',
@@ -259,7 +278,7 @@ class DatabaseSeeder extends Seeder
             Product::updateOrCreate(['slug' => $prod['slug']], $prod);
         }
 
-        // 3. Seed Sample Inquiries
+        // 4. Seed Sample Inquiries
         if (Inquiry::count() === 0) {
             Inquiry::create([
                 'name' => 'James Mwangi',
@@ -270,17 +289,6 @@ class DatabaseSeeder extends Seeder
                 'message' => 'Hello SkySoft Systems, we are opening a new supermarket branch in Westlands, Nairobi and need 3 complete checkout POS terminals with KRA eTIMS and M-Pesa integration. Please share an official quote and installation timeframe.',
                 'status' => 'pending',
                 'product_id' => 1,
-            ]);
-
-            Inquiry::create([
-                'name' => 'Dr. Grace Njeri',
-                'email' => 'grace@njerihospital.org',
-                'phone' => '+254 722 987 654',
-                'company' => 'St. Jude Medical Centre',
-                'subject' => 'Inquiry for 10KVA Online UPS Backup',
-                'message' => 'We need an online pure sine wave UPS solution to back up our laboratory diagnostic equipment and theater lights against power outages.',
-                'status' => 'contacted',
-                'product_id' => 4,
             ]);
         }
     }

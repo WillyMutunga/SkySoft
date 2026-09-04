@@ -6,7 +6,7 @@
 @section('content')
 <div class="space-y-6">
     
-    <!-- Filter Bar -->
+    <!-- Filter Bar & Export -->
     <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <form action="{{ route('admin.inquiries.index') }}" method="GET" class="flex-1 flex flex-col sm:flex-row gap-3">
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by name, email, company, message..." class="px-3.5 py-2 rounded-xl border border-slate-300 text-xs w-full sm:w-72 focus:ring-2 focus:ring-emerald-500">
@@ -23,6 +23,11 @@
             <a href="{{ route('admin.inquiries.index') }}" class="px-3 py-2 bg-slate-100 text-slate-600 font-semibold text-xs rounded-xl hover:bg-slate-200 transition flex items-center justify-center">Reset</a>
             @endif
         </form>
+
+        <a href="{{ route('admin.inquiries.export') }}" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md transition flex-shrink-0">
+            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span>Export to CSV / Excel</span>
+        </a>
     </div>
 
     <!-- Inquiries Table -->

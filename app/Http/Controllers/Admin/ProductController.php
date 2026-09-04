@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -56,7 +57,8 @@ class ProductController extends Controller
             'description' => 'required|string',
             'features' => 'nullable|string',
             'specs' => 'nullable|string',
-            'image_url' => 'nullable|url|max:1000',
+            'image_url' => 'nullable|string|max:1000',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
             'is_featured' => 'boolean',
             'in_stock' => 'boolean',
             'sort_order' => 'integer',
@@ -66,7 +68,18 @@ class ProductController extends Controller
         $validated['in_stock'] = $request->has('in_stock');
         $validated['slug'] = Str::slug($validated['name']);
 
-        // Process features from textarea (one per line)
+        // Handle Direct Image File Upload
+        if ($request->hasFile('image_file')) {
+            $uploadDir = public_path('uploads/products');
+            if (!File::isDirectory($uploadDir)) {
+                File::makeDirectory($uploadDir, 0755, true, true);
+            }
+            $file = $request->file('image_file');
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+            $file->move($uploadDir, $filename);
+            $validated['image_url'] = '/uploads/products/' . $filename;
+        }
+
         if (!empty($request->features)) {
             $featuresList = array_filter(array_map('trim', explode("\n", $request->features)));
             $validated['features'] = array_values($featuresList);
@@ -74,7 +87,6 @@ class ProductController extends Controller
             $validated['features'] = [];
         }
 
-        // Process specs from textarea (Key: Value per line)
         if (!empty($request->specs)) {
             $specsMap = [];
             $lines = array_filter(array_map('trim', explode("\n", $request->specs)));
@@ -91,9 +103,10 @@ class ProductController extends Controller
             $validated['specs'] = [];
         }
 
+        unset($validated['image_file']);
         Product::create($validated);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product created successfully!');
+        return redirect()->route('admin.products.index')->with('success', 'Product created successfully with image!');
     }
 
     public function edit($id)
@@ -126,7 +139,8 @@ class ProductController extends Controller
             'description' => 'required|string',
             'features' => 'nullable|string',
             'specs' => 'nullable|string',
-            'image_url' => 'nullable|url|max:1000',
+            'image_url' => 'nullable|string|max:1000',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
             'is_featured' => 'boolean',
             'in_stock' => 'boolean',
             'sort_order' => 'integer',
@@ -135,6 +149,18 @@ class ProductController extends Controller
         $validated['is_featured'] = $request->has('is_featured');
         $validated['in_stock'] = $request->has('in_stock');
         $validated['slug'] = Str::slug($validated['name']);
+
+        // Handle Direct Image File Upload
+        if ($request->hasFile('image_file')) {
+            $uploadDir = public_path('uploads/products');
+            if (!File::isDirectory($uploadDir)) {
+                File::makeDirectory($uploadDir, 0755, true, true);
+            }
+            $file = $request->file('image_file');
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+            $file->move($uploadDir, $filename);
+            $validated['image_url'] = '/uploads/products/' . $filename;
+        }
 
         if (!empty($request->features)) {
             $featuresList = array_filter(array_map('trim', explode("\n", $request->features)));
@@ -159,6 +185,7 @@ class ProductController extends Controller
             $validated['specs'] = [];
         }
 
+        unset($validated['image_file']);
         $product->update($validated);
 
         return redirect()->route('admin.products.index')->with('success', 'Product updated successfully!');

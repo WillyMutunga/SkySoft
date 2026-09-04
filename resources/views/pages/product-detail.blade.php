@@ -3,9 +3,43 @@
 @section('title', $product->name . ' | SkySoft Systems Kenya')
 @section('meta_description', $product->short_description)
 
+@push('styles')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "{{ $product->name }}",
+  "image": [
+    "{{ $product->image_url ?? 'https://skysoftsystems.co.ke/assets/images/logo.jpg' }}"
+  ],
+  "description": "{{ $product->short_description }}",
+  "sku": "SKY-{{ $product->id }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "SkySoft Systems"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ url()->current() }}",
+    "priceCurrency": "KES",
+    "price": "{{ $product->price ?? 0 }}",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition"
+  }
+}
+</script>
+<style>
+@media print {
+    header, footer, .no-print, .modal-backdrop { display: none !important; }
+    body { background: white !important; color: black !important; }
+    .print-full { width: 100% !important; margin: 0 !important; }
+}
+</style>
+@endpush
+
 @section('content')
 <!-- Breadcrumbs -->
-<div class="bg-white border-b border-slate-200 py-3 text-xs text-slate-500">
+<div class="bg-white border-b border-slate-200 py-3 text-xs text-slate-500 no-print">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center space-x-2">
         <a href="{{ route('home') }}" class="hover:text-emerald-600">Home</a>
         <span>/</span>
@@ -77,16 +111,24 @@
                 </p>
 
                 <!-- Primary Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                <div class="flex flex-col sm:flex-row gap-3 pt-2 no-print">
                     <button @click="quoteModalOpen = true" class="w-full sm:w-auto flex-1 py-3.5 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition flex items-center justify-center">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         <span>Request Official Quote</span>
                     </button>
                     
-                    <a href="https://wa.me/254712345678?text={{ urlencode('Hello SkySoft Systems, I would like to inquire about: ' . $product->name) }}" target="_blank" class="w-full sm:w-auto py-3.5 px-6 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-md transition flex items-center justify-center">
+                    @php
+                        $waText = "Hello SkySoft Systems, I would like to inquire about: " . $product->name . " (SKU: SKY-" . $product->id . ", " . $product->formatted_price . "). Please share delivery details.";
+                    @endphp
+                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $companySettings['company_whatsapp'] ?? '254712345678') }}?text={{ urlencode($waText) }}" target="_blank" class="w-full sm:w-auto py-3.5 px-6 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-md transition flex items-center justify-center">
                         <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                        <span>WhatsApp Specialist</span>
+                        <span>WhatsApp Quote</span>
                     </a>
+
+                    <button onclick="window.print()" class="px-4 py-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs transition flex items-center justify-center">
+                        <svg class="w-4 h-4 mr-1.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                        <span>Print Datasheet</span>
+                    </button>
                 </div>
 
                 <!-- Key Highlights List -->
@@ -145,7 +187,7 @@
 
         <!-- Related Products Section -->
         @if($relatedProducts->count() > 0)
-        <div class="mt-20 pt-12 border-t border-slate-200">
+        <div class="mt-20 pt-12 border-t border-slate-200 no-print">
             <h2 class="text-2xl font-bold text-slate-900 mb-8">Related Products in {{ $product->category }}</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 @foreach($relatedProducts as $rel)
@@ -168,7 +210,6 @@
     <div x-show="quoteModalOpen" x-cloak class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
             
-            <!-- Backdrop -->
             <div x-show="quoteModalOpen" 
                  x-transition:enter="ease-out duration-300" 
                  x-transition:enter-start="opacity-0" 
@@ -181,7 +222,6 @@
 
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-            <!-- Modal Panel -->
             <div x-show="quoteModalOpen" 
                  x-transition:enter="ease-out duration-300" 
                  x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" 
