@@ -17,23 +17,32 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, sqlite3
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, sqlite3, fileinfo, curl, json
           coverage: none
+
+      - name: Setup Environment File & Database
+        run: |
+          cp .env.example .env || true
+          touch database/database.sqlite
+          sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=sqlite/' .env || true
+          sed -i 's|DB_DATABASE=.*|DB_DATABASE=database/database.sqlite|' .env || true
+          sed -i 's/APP_ENV=.*/APP_ENV=production/' .env || true
+          sed -i 's/APP_DEBUG=.*/APP_DEBUG=false/' .env || true
+          sed -i 's|APP_URL=.*|APP_URL=https://skysoftsystems.co.ke|' .env || true
 
       - name: Install PHP Dependencies
         run: |
-          composer update --no-dev --optimize-autoloader --no-interaction
+          composer update --no-scripts --no-dev --optimize-autoloader --no-interaction
 
-      - name: Setup SQLite Database & Run Seeders
+      - name: Bootstrap Laravel, Run Migrations & Seeders
         run: |
-          touch database/database.sqlite
-          cp .env.example .env || true
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
-          sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=sqlite/' .env || true
-          sed -i 's|DB_DATABASE=.*|DB_DATABASE=database/database.sqlite|' .env || true
           php artisan key:generate --force
+          php artisan package:discover --ansi || true
           php artisan migrate --force
           php artisan db:seed --force
+          php artisan config:clear || true
+          php artisan route:clear || true
+          php artisan view:clear || true
 
       - name: Deploy to cPanel via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
