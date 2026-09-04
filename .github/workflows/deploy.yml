@@ -1,0 +1,51 @@
+name: Deploy SkySoft Systems to HostPinnacle via FTP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  web-deploy:
+    name: Build, Prepare Database & FTP Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, sqlite3
+          coverage: none
+
+      - name: Install PHP Dependencies
+        run: |
+          composer update --no-dev --optimize-autoloader --no-interaction
+
+      - name: Setup SQLite Database & Run Seeders
+        run: |
+          touch database/database.sqlite
+          cp .env.example .env || true
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=sqlite/' .env || true
+          sed -i 's|DB_DATABASE=.*|DB_DATABASE=database/database.sqlite|' .env || true
+          php artisan key:generate --force
+          php artisan migrate --force
+          php artisan db:seed --force
+
+      - name: Deploy to cPanel via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/tests/**
+            README.md
