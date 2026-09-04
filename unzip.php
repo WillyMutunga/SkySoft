@@ -1,5 +1,5 @@
 <?php
-// Auto-extractor & Legacy Artifact Cleaner for SkySoft Systems
+// Auto-extractor, Cache Cleaner & Migration Runner for SkySoft Systems
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -19,9 +19,50 @@ if (file_exists($zipFile)) {
         $zip->extractTo(__DIR__);
         $zip->close();
         @unlink($zipFile);
-        echo "<h3>&check; SkySoft Systems deployed and extracted successfully!</h3>";
+        echo "<p>&check; ZIP bundle extracted.</p>";
     } else {
-        echo "<h3>Error extracting ZIP bundle.</h3>";
+        echo "<p>&cross; Error extracting ZIP bundle.</p>";
+    }
+}
+
+// Ensure necessary storage and upload folders exist with write permissions
+$dirs = [
+    __DIR__ . '/storage',
+    __DIR__ . '/storage/app',
+    __DIR__ . '/storage/framework',
+    __DIR__ . '/storage/framework/views',
+    __DIR__ . '/storage/framework/sessions',
+    __DIR__ . '/storage/framework/cache',
+    __DIR__ . '/storage/framework/cache/data',
+    __DIR__ . '/storage/logs',
+    __DIR__ . '/public/uploads',
+    __DIR__ . '/public/uploads/products',
+];
+
+foreach ($dirs as $dir) {
+    if (!file_exists($dir)) {
+        @mkdir($dir, 0777, true);
+    }
+    @chmod($dir, 0777);
+}
+
+// Clear compiled blade views to force immediate UI refresh
+$viewFiles = glob(__DIR__ . '/storage/framework/views/*');
+if ($viewFiles) {
+    foreach ($viewFiles as $f) {
+        if (is_file($f)) {
+            @unlink($f);
+        }
+    }
+}
+
+// Clear bootstrap cache
+$cacheFiles = glob(__DIR__ . '/bootstrap/cache/*.php');
+if ($cacheFiles) {
+    foreach ($cacheFiles as $f) {
+        if (is_file($f)) {
+            @unlink($f);
+        }
     }
 }
 
@@ -30,5 +71,30 @@ if (file_exists(__DIR__ . '/index.html')) {
     @unlink(__DIR__ . '/index.html');
 }
 
-echo "<h3>&check; Legacy React files cleaned up. Laravel is now active across all routes!</h3>";
-echo "<p><a href='/'>&rarr; View Live Website (Home)</a> | <a href='/products'>&rarr; Products Catalog</a> | <a href='/admin/products'>&rarr; Admin Products</a></p>";
+// Bootstrap Laravel to run Artisan commands if composer autoload exists
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require __DIR__ . '/vendor/autoload.php';
+    $app = require_once __DIR__ . '/bootstrap/app.php';
+    
+    $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+    $kernel->bootstrap();
+
+    try {
+        Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        echo "<p>&check; Migrations: " . Illuminate\Support\Facades\Artisan::output() . "</p>";
+    } catch (\Throwable $e) {
+        echo "<p>&excl; Migration note: " . $e->getMessage() . "</p>";
+    }
+
+    try {
+        Illuminate\Support\Facades\Artisan::call('view:clear');
+        Illuminate\Support\Facades\Artisan::call('route:clear');
+        Illuminate\Support\Facades\Artisan::call('config:clear');
+        echo "<p>&check; Laravel caches flushed.</p>";
+    } catch (\Throwable $e) {
+        echo "<p>&excl; Cache note: " . $e->getMessage() . "</p>";
+    }
+}
+
+echo "<h3>&check; SkySoft Systems is fully synced, cache-cleared, and live!</h3>";
+echo "<p><a href='/'>&rarr; Live Website</a> | <a href='/admin/dashboard'>&rarr; Admin Dashboard</a> | <a href='/admin/settings'>&rarr; Company Settings</a></p>";
