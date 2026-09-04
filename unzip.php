@@ -11,6 +11,15 @@ if (file_exists(__DIR__ . '/public/index.html')) {
     @unlink(__DIR__ . '/public/index.html');
 }
 
+$dbFile = __DIR__ . '/database/database.sqlite';
+$dbBackup = __DIR__ . '/database/database.sqlite.live_backup';
+$hasExistingDb = file_exists($dbFile) && filesize($dbFile) > 0;
+
+// Backup live SQLite database before extraction so user-made edits are NEVER wiped
+if ($hasExistingDb) {
+    @copy($dbFile, $dbBackup);
+}
+
 $zipFile = __DIR__ . '/skysoft_app.zip';
 
 if (file_exists($zipFile)) {
@@ -23,6 +32,13 @@ if (file_exists($zipFile)) {
     } else {
         echo "<p>&cross; Error extracting ZIP bundle.</p>";
     }
+}
+
+// Restore live database if backup exists
+if ($hasExistingDb && file_exists($dbBackup)) {
+    @copy($dbBackup, $dbFile);
+    @unlink($dbBackup);
+    echo "<p>&check; Live SQLite database preserved successfully.</p>";
 }
 
 // Ensure necessary storage and upload folders exist with write permissions

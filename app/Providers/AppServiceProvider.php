@@ -47,7 +47,11 @@ class AppServiceProvider extends ServiceProvider
                 'twitter_url' => 'https://twitter.com',
             ];
 
-            $view->with('companySettings', array_merge($defaults, $settings));
+            $nonEmpty = array_filter($settings, function ($val) {
+                return $val !== null && trim((string)$val) !== '';
+            });
+
+            $view->with('companySettings', array_merge($defaults, $nonEmpty));
         });
     }
 }
