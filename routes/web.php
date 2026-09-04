@@ -32,6 +32,10 @@ Route::post('/products/{id}/quote', [ProductController::class, 'submitQuote'])->
 |--------------------------------------------------------------------------
 */
 
+Route::get('/login', function () {
+    return redirect()->route('admin.login');
+})->name('login');
+
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
