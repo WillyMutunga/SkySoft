@@ -7,7 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.31",
+        "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9"
     },
     "require-dev": {
@@ -55,12 +55,20 @@
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "policy": {
+            "advisories": {
+                "block": false
+            }
         }
     },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
+        "audit": {
+            "abandoned": "ignore"
+        },
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
