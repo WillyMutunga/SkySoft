@@ -48,6 +48,12 @@ class ProductController extends Controller
         return view('pages.product-detail', compact('product', 'relatedProducts'));
     }
 
+    public function datasheet($slug)
+    {
+        $product = Product::where('slug', $slug)->firstOrFail();
+        return view('pages.product-datasheet', compact('product'));
+    }
+
     public function submitQuote(Request $request, $id)
     {
         $product = Product::findOrFail($id);

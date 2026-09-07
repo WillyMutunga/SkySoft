@@ -77,6 +77,30 @@
             </div>
         </div>
 
+        <!-- Analytics & Conversion Tracking Group -->
+        <div class="pt-4 border-t border-slate-100">
+            <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4 text-emerald-600">SEO, Analytics & Pixel Tracking</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Google Analytics 4 (Measurement ID)</label>
+                    <input type="text" name="google_analytics_id" value="{{ old('google_analytics_id', $settings['google_analytics_id'] ?? '') }}" placeholder="G-XXXXXXXXXX" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500">
+                    <p class="text-[11px] text-slate-500 mt-1">Example: G-ABC1234567. Automatically injects Google Tag Manager / gtag.js across all pages.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Meta / Facebook Pixel ID</label>
+                    <input type="text" name="meta_pixel_id" value="{{ old('meta_pixel_id', $settings['meta_pixel_id'] ?? '') }}" placeholder="123456789012345" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500">
+                    <p class="text-[11px] text-slate-500 mt-1">Example: 9876543210. Automatically fires standard page-view tracking.</p>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Custom Head HTML Scripts / Verification Tags</label>
+                    <textarea name="custom_head_scripts" rows="3" placeholder="<!-- Google Site Verification, Custom Tracking, etc. -->" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-mono focus:ring-2 focus:ring-emerald-500">{{ old('custom_head_scripts', $settings['custom_head_scripts'] ?? '') }}</textarea>
+                    <p class="text-[11px] text-slate-500 mt-1">Paste any extra Google Search Console verification meta tags or third-party live chat scripts here.</p>
+                </div>
+            </div>
+        </div>
+
         <div class="pt-6 flex justify-end">
             <button type="submit" class="px-8 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md transition">
                 Save & Apply Settings

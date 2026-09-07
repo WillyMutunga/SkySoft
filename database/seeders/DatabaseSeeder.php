@@ -291,5 +291,49 @@ class DatabaseSeeder extends Seeder
                 'product_id' => 1,
             ]);
         }
+
+        // 5. Seed Tech Insights & Case Studies
+        $posts = [
+            [
+                'title' => 'Complete Guide to KRA eTIMS Integration for Retail & Supermarkets in Kenya',
+                'slug' => 'kra-etims-integration-guide-retail-pos-kenya',
+                'category' => 'Point of Sale & eTIMS',
+                'author' => 'Eng. Willy Mutunga',
+                'read_time' => '6 min read',
+                'image_url' => 'https://images.unsplash.com/photo-1556742049-0a67e5572293?auto=format&fit=crop&w=800&q=80',
+                'excerpt' => 'How Kenyan retail businesses, hardware shops, and distributors can achieve 100% automated electronic tax compliance with direct KRA eTIMS API fiscalization.',
+                'content' => "With the Kenya Revenue Authority (KRA) mandating electronic Tax Invoice Management Systems (eTIMS) across all registered businesses, manual invoicing is now obsolete. Failure to transmit real-time fiscalized invoices directly to the KRA server risks hefty financial penalties and tax compliance withholding.\n\n### What is Direct KRA eTIMS POS Fiscalization?\n\nTraditional electronic tax registers (ETRs) required physical SIM cards and frequently suffered paper jams or lost data packets. Modern cloud Point of Sale (POS) terminals engineered by SkySoft Systems connect directly to the KRA OSCU (Online Sales Control Unit) and VSCU (Virtual Sales Control Unit) APIs over secure SSL encryption.\n\n### Key Benefits for Kenyan Merchants:\n\n1. **Zero Manual Keying**: When the cashier scans a barcode and completes checkout, the system automatically requests a unique KRA QR Code and fiscal invoice number in under 1.5 seconds.\n2. **Direct M-Pesa Till & Paybill Reconciliations**: Automated STK Push prompts and C2B notifications ensure that cashiers cannot misallocate receipts or shortchange sales.\n3. **Multi-Branch Real-Time Monitoring**: Directors and accountants can view real-time branch sales and VAT breakdowns from their phone or laptop anywhere in the world.\n\nContact SkySoft Systems today to upgrade your current cashier tills or deploy new touch POS hardware pre-configured with active KRA eTIMS.",
+                'is_published' => true,
+                'published_at' => now()->subDays(2),
+            ],
+            [
+                'title' => 'Why Pure Sine Wave Online UPS is Essential for Enterprise Server Rooms in Nairobi',
+                'slug' => 'why-pure-sine-wave-online-ups-essential-server-rooms-nairobi',
+                'category' => 'Power Backup & UPS',
+                'author' => 'SkySoft Power Solutions',
+                'read_time' => '5 min read',
+                'image_url' => 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
+                'excerpt' => 'Power fluctuations and blackouts cost Kenyan businesses millions in fried hardware. Learn why true Online Double-Conversion UPS systems provide zero transfer delay.',
+                'content' => "The Kenyan national grid frequently experiences power surges, sags, brownouts, and sudden total blackouts. For standard desktop computers, a budget offline UPS might provide a few minutes to save documents. However, for database servers, network switches, and medical imaging units, offline UPS units are dangerous.\n\n### The Offline vs. Online UPS Difference:\n\n* **Offline / Line-Interactive UPS**: Takes between 4ms and 10ms to switch from mains to battery during an outage. In high-speed transactional servers, this micro-interruption can cause corrupted database writes or system reboots.\n* **True Online Double-Conversion UPS (0ms Transfer)**: Continuously rectifies incoming AC power into DC, and inverts it back into a pure, clean sine wave. When the mains power fails, the battery continues providing power instantly with **zero milliseconds transfer time**.\n\nSkySoft Systems stocks and commissions 1KVA through 20KVA Online UPS systems with extended battery banks and SNMP remote monitoring cards across Nairobi, Mombasa, Kisumu, and Nakuru.",
+                'is_published' => true,
+                'published_at' => now()->subDays(5),
+            ],
+            [
+                'title' => 'Choosing the Right CCTV Surveillance & Biometric Access Control for Warehouses',
+                'slug' => 'choosing-cctv-biometric-access-control-warehouses-kenya',
+                'category' => 'Security & Surveillance',
+                'author' => 'SkySoft Security Systems',
+                'read_time' => '4 min read',
+                'image_url' => 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80',
+                'excerpt' => 'Protect commercial inventory, monitor loading bays with AI 4K color night vision, and automate payroll with facial recognition attendance scanners.',
+                'content' => "Commercial logistics centers, production plants, and multi-tenant warehouses in Kenya require robust physical security and strict perimeter access management.\n\n### Modern Security Checklist for Industrial Properties:\n\n1. **AI Human & Vehicle Classification**: Legacy motion sensors trigger false alarms when dogs, birds, or tree branches move. AI-driven NVR systems only trigger alerts when human intruders or unauthorized vehicles cross virtual tripwires.\n2. **Full-Color 24/7 Night Vision**: Ensure your cameras capture vehicle license plate numbers and clothing colors even in pitch darkness.\n3. **Contactless Biometric Attendance Scanners**: Replace manual paper sign-in logbooks with facial recognition clock-in terminals that automatically export hours worked directly into your payroll software.\n\nSkySoft Systems delivers complete security audits and structured Cat6 network installations across Kenya.",
+                'is_published' => true,
+                'published_at' => now()->subDays(9),
+            ],
+        ];
+
+        foreach ($posts as $post) {
+            \App\Models\Post::updateOrCreate(['slug' => $post['slug']], $post);
+        }
     }
 }

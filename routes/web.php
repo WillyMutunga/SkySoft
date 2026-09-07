@@ -3,11 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\InquiryController as AdminInquiryController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +26,16 @@ Route::post('/contact', [PageController::class, 'submitContact'])->name('contact
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/products/{slug}/datasheet', [ProductController::class, 'datasheet'])->name('products.datasheet');
 Route::post('/products/{id}/quote', [ProductController::class, 'submitQuote'])->name('products.quote');
+
+// Tech Insights & Blog
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+
+// SEO & Crawlers
+Route::get('/sitemap.xml', [PageController::class, 'sitemap'])->name('sitemap');
+Route::get('/robots.txt', [PageController::class, 'robots'])->name('robots');
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +61,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Products CRUD
         Route::resource('products', AdminProductController::class);
+
+        // Posts & Tech Insights CRUD
+        Route::resource('posts', AdminPostController::class);
 
         // Inquiries Management
         Route::get('/inquiries/export/csv', [AdminInquiryController::class, 'exportCsv'])->name('inquiries.export');

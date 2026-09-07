@@ -98,6 +98,11 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     try {
         Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
         echo "<p>&check; Migrations: " . Illuminate\Support\Facades\Artisan::output() . "</p>";
+
+        if (class_exists('App\Models\Post') && \App\Models\Post::count() === 0) {
+            Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+            echo "<p>&check; Initial articles seeded successfully.</p>";
+        }
     } catch (\Throwable $e) {
         echo "<p>&excl; Migration note: " . $e->getMessage() . "</p>";
     }

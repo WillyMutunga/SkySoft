@@ -45,6 +45,9 @@ class AppServiceProvider extends ServiceProvider
                 'facebook_url' => 'https://facebook.com',
                 'linkedin_url' => 'https://linkedin.com',
                 'twitter_url' => 'https://twitter.com',
+                'google_analytics_id' => '',
+                'meta_pixel_id' => '',
+                'custom_head_scripts' => '',
             ];
 
             $nonEmpty = array_filter($settings, function ($val) {
