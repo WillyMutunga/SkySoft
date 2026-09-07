@@ -4,106 +4,150 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="relative overflow-hidden hero-pattern text-white py-20 lg:py-28">
-    <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/90 to-emerald-950/40 pointer-events-none"></div>
+<section class="relative overflow-hidden bg-slate-950 text-white pt-24 pb-20 lg:pt-32 lg:pb-28">
+    <!-- Ambient glowing backgrounds & grid -->
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(16,185,129,0.15),rgba(255,255,255,0))] pointer-events-none"></div>
+    <div class="absolute -top-40 right-0 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-teal-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+    
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             <!-- Left Hero Content -->
             <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
-                <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold uppercase tracking-wider">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                    <span>Next-Gen Business Technology Kenya</span>
+                <div class="inline-flex items-center space-x-2.5 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-semibold uppercase tracking-wider backdrop-blur-md shadow-inner shadow-emerald-500/10">
+                    <span class="flex h-2 w-2 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span>Enterprise IT & POS Infrastructure &bull; Nairobi, Kenya</span>
                 </div>
                 
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                    Smart IT Systems Engineered for <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">Unstoppable Growth</span>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.15]">
+                    Smart IT Systems Engineered for <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300">Unstoppable Growth</span>
                 </h1>
                 
-                <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                    Transform your retail store, school, or corporate enterprise with robust <strong>Smart Cloud POS systems</strong>, <strong>Online UPS power protection</strong>, <strong>cybersecurity firewalls</strong>, and tailored software solutions.
+                <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                    Empowering Kenyan retail supermarkets, healthcare facilities, schools, and enterprises with certified <strong>Touch POS Terminals</strong>, <strong>KRA eTIMS & M-Pesa Automations</strong>, <strong>0ms Online UPS Units</strong>, and <strong>Enterprise Cyber Security</strong>.
                 </p>
 
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                    <a href="{{ route('products.index') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-base hover:bg-emerald-400 transition shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transform hover:-translate-y-0.5">
-                        <span>Explore Products</span>
-                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    <a href="{{ route('products.index') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-base transition-all duration-300 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transform hover:-translate-y-0.5">
+                        <span>Explore Hardware Catalog</span>
+                        <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                     </a>
-                    <a href="{{ route('contact') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-white font-semibold text-base transition">
-                        <span>Book Free Consultation</span>
+                    <a href="{{ route('contact') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-800/90 border border-slate-700/80 text-white font-semibold text-base backdrop-blur-md transition-all duration-300 shadow-sm hover:border-slate-600">
+                        <span>Book Site Assessment</span>
                     </a>
                 </div>
 
                 <!-- Trust Metrics / Stats -->
                 <div class="grid grid-cols-3 gap-6 pt-6 border-t border-slate-800/80 max-w-lg mx-auto lg:mx-0">
-                    <div>
-                        <div class="text-2xl sm:text-3xl font-extrabold text-white">99.9%</div>
-                        <div class="text-xs text-slate-400 uppercase font-medium mt-1">Uptime Reliability</div>
+                    <div class="p-3 rounded-xl bg-slate-900/40 border border-white/[0.04]">
+                        <div class="text-2xl sm:text-3xl font-extrabold text-white">99.99%</div>
+                        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Uptime SLA</div>
                     </div>
-                    <div>
+                    <div class="p-3 rounded-xl bg-slate-900/40 border border-white/[0.04]">
                         <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400">250+</div>
-                        <div class="text-xs text-slate-400 uppercase font-medium mt-1">Active Deployments</div>
+                        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Deployments</div>
                     </div>
-                    <div>
-                        <div class="text-2xl sm:text-3xl font-extrabold text-teal-300">24/7</div>
-                        <div class="text-xs text-slate-400 uppercase font-medium mt-1">Kenya Support</div>
+                    <div class="p-3 rounded-xl bg-slate-900/40 border border-white/[0.04]">
+                        <div class="text-2xl sm:text-3xl font-extrabold text-teal-300">0ms</div>
+                        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Power Transfer</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Hero Card / Showcase -->
+            <!-- Right Hero Card / Interactive Hardware & Cloud Showcase -->
             <div class="lg:col-span-5 relative">
-                <div class="relative mx-auto max-w-md lg:max-w-none">
-                    <div class="absolute -inset-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-3xl blur-xl opacity-30 animate-tilt"></div>
+                <!-- Glowing Aura -->
+                <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500/30 to-teal-500/20 rounded-3xl blur-2xl opacity-70"></div>
+                
+                <!-- Main Enterprise Glass Showcase Container -->
+                <div class="relative bg-slate-900/90 backdrop-blur-xl border border-white/10 rounded-2xl p-5 sm:p-6 shadow-2xl space-y-5">
                     
-                    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6">
-                        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-3 h-3 rounded-full bg-rose-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-amber-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-                            </div>
-                            <span class="text-xs font-mono text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded border border-emerald-800/40">KRA eTIMS & M-Pesa Ready</span>
+                    <!-- Console Top Bar -->
+                    <div class="flex items-center justify-between border-b border-white/[0.08] pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block shadow-sm shadow-rose-500/50"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block shadow-sm shadow-amber-500/50"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block shadow-sm shadow-emerald-500/50"></span>
+                            <span class="text-[11px] font-mono text-slate-400 ml-2">SkySoft Enterprise OS v4.2</span>
                         </div>
+                        <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> LIVE SYSTEM
+                        </span>
+                    </div>
 
-                        <div class="space-y-4">
-                            <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/50 flex items-start space-x-4">
-                                <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    <!-- Hardware & Solution Modules -->
+                    <div class="space-y-3.5">
+                        
+                        <!-- Module 1: Smart Touch POS & eTIMS + M-Pesa -->
+                        <div class="p-3.5 rounded-xl bg-slate-800/70 border border-white/[0.06] hover:border-emerald-500/40 transition-all duration-300 group">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-colors">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <h4 class="text-white font-bold text-sm">Dual-Screen Touch POS</h4>
+                                            <span class="text-[9px] bg-emerald-500/20 text-emerald-300 font-bold px-1.5 py-0.5 rounded border border-emerald-500/30">eTIMS VSCU</span>
+                                        </div>
+                                        <p class="text-xs text-slate-300 mt-0.5">Automated M-Pesa STK Push &bull; Real-time KRA QR Code</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h4 class="text-white font-bold text-sm">Smart POS Systems</h4>
-                                    <p class="text-xs text-slate-400 mt-1">Instant barcode scanning, automated M-Pesa push, multi-branch cloud inventory.</p>
-                                </div>
-                            </div>
-
-                            <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/50 flex items-start space-x-4">
-                                <div class="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                                </div>
-                                <div>
-                                    <h4 class="text-white font-bold text-sm">Online UPS Power Protection</h4>
-                                    <p class="text-xs text-slate-400 mt-1">LightWave, Mercer & APC pure sine wave backup for non-stop uptime.</p>
-                                </div>
-                            </div>
-
-                            <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/50 flex items-start space-x-4">
-                                <div class="w-10 h-10 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                                </div>
-                                <div>
-                                    <h4 class="text-white font-bold text-sm">Enterprise Cyber Firewalls</h4>
-                                    <p class="text-xs text-slate-400 mt-1">Intrusion prevention, load balancing, and secure multi-branch VPN tunnels.</p>
-                                </div>
+                                <span class="text-emerald-400 font-mono text-xs font-bold">READY</span>
                             </div>
                         </div>
 
-                        <div class="pt-2">
-                            <a href="{{ route('contact') }}" class="block w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm text-center shadow-md transition">
-                                Get Instant Pricing Quote &rarr;
-                            </a>
+                        <!-- Module 2: Online UPS Pure Sine Wave Power -->
+                        <div class="p-3.5 rounded-xl bg-slate-800/70 border border-white/[0.06] hover:border-teal-500/40 transition-all duration-300 group">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-9 h-9 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center flex-shrink-0 group-hover:bg-teal-500 group-hover:text-slate-950 transition-colors">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <h4 class="text-white font-bold text-sm">Online Double-Conversion UPS</h4>
+                                            <span class="text-[9px] bg-teal-500/20 text-teal-300 font-bold px-1.5 py-0.5 rounded border border-teal-500/30">0ms DELAY</span>
+                                        </div>
+                                        <p class="text-xs text-slate-300 mt-0.5">LightWave & Mercer Pure Sine Wave &bull; 230V Clean Power</p>
+                                    </div>
+                                </div>
+                                <span class="text-teal-400 font-mono text-xs font-bold">ACTIVE</span>
+                            </div>
                         </div>
+
+                        <!-- Module 3: Cyber Firewall & Biometric Security -->
+                        <div class="p-3.5 rounded-xl bg-slate-800/70 border border-white/[0.06] hover:border-cyan-500/40 transition-all duration-300 group">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-colors">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <h4 class="text-white font-bold text-sm">UTM Firewall & Biometric Access</h4>
+                                            <span class="text-[9px] bg-cyan-500/20 text-cyan-300 font-bold px-1.5 py-0.5 rounded border border-cyan-500/30">SECURE</span>
+                                        </div>
+                                        <p class="text-xs text-slate-300 mt-0.5">Multi-WAN Failover &bull; AI Face & Time-Attendance Logs</p>
+                                    </div>
+                                </div>
+                                <span class="text-cyan-400 font-mono text-xs font-bold">LOCKED</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Bottom CTA inside console -->
+                    <div class="pt-2">
+                        <a href="{{ route('contact') }}" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-extrabold text-sm text-center flex items-center justify-center space-x-2 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/35 transition duration-300">
+                            <span>Request Enterprise Hardware Demo</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </a>
                     </div>
                 </div>
             </div>

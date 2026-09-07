@@ -172,45 +172,46 @@
         </div>
     </div>
 
-    <!-- Main Navigation Header -->
-    <header class="sticky top-0 z-40 glassmorphism border-b border-slate-200/80 transition-all duration-200 shadow-sm">
+    <!-- Main Navigation Header (Dark Luxury Glassmorphism) -->
+    <header class="sticky top-0 z-50 bg-slate-950/85 backdrop-blur-xl border-b border-white/[0.08] transition-all duration-200 shadow-2xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 
                 <!-- Brand Logo -->
                 <a href="{{ route('home') }}" class="flex items-center space-x-3 group">
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-200">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-cyan-400 flex items-center justify-center text-slate-950 shadow-lg shadow-emerald-500/25 group-hover:scale-105 transition-transform duration-200">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                     </div>
                     <div>
-                        <span class="text-2xl font-extrabold tracking-tight text-slate-900 flex items-center">
-                            SkySoft<span class="text-emerald-600 ml-1">Systems</span>
+                        <span class="text-2xl font-black tracking-tight text-white flex items-center">
+                            SkySoft<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300 ml-1">Systems</span>
                         </span>
-                        <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 -mt-1">IT & Digital Solutions</p>
+                        <p class="text-[9px] uppercase font-bold tracking-widest text-slate-400 -mt-1">Enterprise IT & Power Solutions</p>
                     </div>
                 </a>
 
                 <!-- Desktop Navigation Links -->
-                <nav class="hidden md:flex items-center space-x-1 font-medium text-slate-700">
-                    <a href="{{ route('home') }}" class="px-4 py-2 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/60 transition {{ request()->routeIs('home') ? 'text-emerald-600 bg-emerald-50 font-semibold' : '' }}">Home</a>
-                    <a href="{{ route('about') }}" class="px-4 py-2 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/60 transition {{ request()->routeIs('about') ? 'text-emerald-600 bg-emerald-50 font-semibold' : '' }}">About Us</a>
-                    <a href="{{ route('services') }}" class="px-4 py-2 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/60 transition {{ request()->routeIs('services') ? 'text-emerald-600 bg-emerald-50 font-semibold' : '' }}">Services</a>
-                    <a href="{{ route('products.index') }}" class="px-4 py-2 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/60 transition {{ request()->routeIs('products.*') ? 'text-emerald-600 bg-emerald-50 font-semibold' : '' }}">Products</a>
-                    <a href="{{ route('solutions') }}" class="px-4 py-2 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/60 transition {{ request()->routeIs('solutions') ? 'text-emerald-600 bg-emerald-50 font-semibold' : '' }}">Solutions</a>
-                    <a href="{{ route('contact') }}" class="px-4 py-2 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/60 transition {{ request()->routeIs('contact') ? 'text-emerald-600 bg-emerald-50 font-semibold' : '' }}">Contact</a>
+                <nav class="hidden md:flex items-center space-x-1 font-medium text-slate-300 text-sm">
+                    <a href="{{ route('home') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('home') ? 'text-emerald-400 bg-emerald-950/70 border border-emerald-800/60 font-bold' : 'hover:text-white hover:bg-white/[0.05]' }}">Home</a>
+                    <a href="{{ route('about') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('about') ? 'text-emerald-400 bg-emerald-950/70 border border-emerald-800/60 font-bold' : 'hover:text-white hover:bg-white/[0.05]' }}">About Us</a>
+                    <a href="{{ route('services') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('services') ? 'text-emerald-400 bg-emerald-950/70 border border-emerald-800/60 font-bold' : 'hover:text-white hover:bg-white/[0.05]' }}">Services</a>
+                    <a href="{{ route('products.index') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('products.*') ? 'text-emerald-400 bg-emerald-950/70 border border-emerald-800/60 font-bold' : 'hover:text-white hover:bg-white/[0.05]' }}">Products</a>
+                    <a href="{{ route('solutions') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('solutions') ? 'text-emerald-400 bg-emerald-950/70 border border-emerald-800/60 font-bold' : 'hover:text-white hover:bg-white/[0.05]' }}">Solutions</a>
+                    <a href="{{ route('blog.index') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('blog.*') ? 'text-emerald-400 bg-emerald-950/70 border border-emerald-800/60 font-bold' : 'hover:text-white hover:bg-white/[0.05]' }}">Insights</a>
+                    <a href="{{ route('contact') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('contact') ? 'text-emerald-400 bg-emerald-950/70 border border-emerald-800/60 font-bold' : 'hover:text-white hover:bg-white/[0.05]' }}">Contact</a>
                 </nav>
 
                 <!-- CTA Button -->
                 <div class="hidden md:flex items-center space-x-3">
-                    <a href="{{ route('contact') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-semibold text-sm hover:bg-emerald-700 transition shadow-md shadow-emerald-600/20 hover:shadow-emerald-600/30 group">
+                    <a href="{{ route('contact') }}" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-extrabold text-xs transition shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transform hover:-translate-y-0.5 group">
                         <span>Request a Quote</span>
-                        <svg class="w-4 h-4 ml-1.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        <svg class="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </a>
                 </div>
 
                 <!-- Mobile Menu Hamburger Button -->
                 <div class="md:hidden flex items-center">
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" type="button" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none" aria-label="Toggle Menu">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" type="button" class="p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/[0.08] focus:outline-none" aria-label="Toggle Menu">
                         <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                         <svg x-show="mobileMenuOpen" x-cloak class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
@@ -218,18 +219,20 @@
             </div>
         </div>
 
-        <!-- Mobile Drawer Navigation -->
-        <div x-show="mobileMenuOpen" x-cloak class="md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-2 shadow-xl" @click.away="mobileMenuOpen = false">
-            <a href="{{ route('home') }}" class="block px-3 py-2.5 rounded-lg text-base font-medium {{ request()->routeIs('home') ? 'bg-emerald-50 text-emerald-600 font-semibold' : 'text-slate-700 hover:bg-slate-50' }}">Home</a>
-            <a href="{{ route('about') }}" class="block px-3 py-2.5 rounded-lg text-base font-medium {{ request()->routeIs('about') ? 'bg-emerald-50 text-emerald-600 font-semibold' : 'text-slate-700 hover:bg-slate-50' }}">About Us</a>
-            <a href="{{ route('services') }}" class="block px-3 py-2.5 rounded-lg text-base font-medium {{ request()->routeIs('services') ? 'bg-emerald-50 text-emerald-600 font-semibold' : 'text-slate-700 hover:bg-slate-50' }}">Services</a>
-            <a href="{{ route('products.index') }}" class="block px-3 py-2.5 rounded-lg text-base font-medium {{ request()->routeIs('products.*') ? 'bg-emerald-50 text-emerald-600 font-semibold' : 'text-slate-700 hover:bg-slate-50' }}">Products</a>
-            <a href="{{ route('solutions') }}" class="block px-3 py-2.5 rounded-lg text-base font-medium {{ request()->routeIs('solutions') ? 'bg-emerald-50 text-emerald-600 font-semibold' : 'text-slate-700 hover:bg-slate-50' }}">Solutions</a>
-            <a href="{{ route('contact') }}" class="block px-3 py-2.5 rounded-lg text-base font-medium {{ request()->routeIs('contact') ? 'bg-emerald-50 text-emerald-600 font-semibold' : 'text-slate-700 hover:bg-slate-50' }}">Contact</a>
-            <div class="pt-4 border-t border-slate-100 flex flex-col space-y-2">
-                <a href="{{ route('contact') }}" class="w-full text-center px-4 py-3 rounded-xl bg-emerald-600 text-white font-semibold text-sm">Request Free Consultation</a>
-                <a href="tel:{{ $companySettings['company_phone'] ?? '+254712345678' }}" class="w-full text-center px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-medium text-sm flex items-center justify-center">
-                    <svg class="w-4 h-4 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        <!-- Mobile Drawer Navigation (Dark Glass) -->
+        <div x-show="mobileMenuOpen" x-cloak class="md:hidden border-t border-slate-800 bg-slate-950/95 backdrop-blur-2xl px-4 pt-4 pb-6 space-y-2 shadow-2xl" @click.away="mobileMenuOpen = false">
+            <a href="{{ route('home') }}" class="block px-4 py-2.5 rounded-xl text-sm font-semibold {{ request()->routeIs('home') ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/60' : 'text-slate-300 hover:bg-white/[0.04]' }}">Home</a>
+            <a href="{{ route('about') }}" class="block px-4 py-2.5 rounded-xl text-sm font-semibold {{ request()->routeIs('about') ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/60' : 'text-slate-300 hover:bg-white/[0.04]' }}">About Us</a>
+            <a href="{{ route('services') }}" class="block px-4 py-2.5 rounded-xl text-sm font-semibold {{ request()->routeIs('services') ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/60' : 'text-slate-300 hover:bg-white/[0.04]' }}">Services</a>
+            <a href="{{ route('products.index') }}" class="block px-4 py-2.5 rounded-xl text-sm font-semibold {{ request()->routeIs('products.*') ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/60' : 'text-slate-300 hover:bg-white/[0.04]' }}">Products</a>
+            <a href="{{ route('solutions') }}" class="block px-4 py-2.5 rounded-xl text-sm font-semibold {{ request()->routeIs('solutions') ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/60' : 'text-slate-300 hover:bg-white/[0.04]' }}">Solutions</a>
+            <a href="{{ route('blog.index') }}" class="block px-4 py-2.5 rounded-xl text-sm font-semibold {{ request()->routeIs('blog.*') ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/60' : 'text-slate-300 hover:bg-white/[0.04]' }}">Tech Insights</a>
+            <a href="{{ route('contact') }}" class="block px-4 py-2.5 rounded-xl text-sm font-semibold {{ request()->routeIs('contact') ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/60' : 'text-slate-300 hover:bg-white/[0.04]' }}">Contact</a>
+            
+            <div class="pt-4 border-t border-slate-800 flex flex-col space-y-2">
+                <a href="{{ route('contact') }}" class="w-full text-center px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-bold text-xs shadow-md">Request Free Proposal</a>
+                <a href="tel:{{ $companySettings['company_phone'] ?? '+254712345678' }}" class="w-full text-center px-4 py-2.5 rounded-xl border border-slate-800 text-slate-300 font-medium text-xs flex items-center justify-center">
+                    <svg class="w-3.5 h-3.5 mr-2 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                     Call: {{ $companySettings['company_phone'] ?? '+254 712 345 678' }}
                 </a>
             </div>
