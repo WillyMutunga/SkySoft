@@ -3,22 +3,28 @@
 @section('title', 'SkySoft Systems | Enterprise POS, Online UPS & IT Infrastructure Nairobi, Kenya')
 
 @section('content')
-<!-- Hero Section -->
-<section class="relative overflow-hidden bg-slate-950 text-white pt-24 pb-20 lg:pt-32 lg:pb-28">
-    <!-- Ambient glowing backgrounds & grid -->
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(16,185,129,0.15),rgba(255,255,255,0))] pointer-events-none"></div>
-    <div class="absolute -top-40 right-0 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-teal-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+<!-- Hero Section with Bright Datacenter Server Racks -->
+<section class="relative overflow-hidden bg-slate-950 text-white pt-24 pb-20 lg:pt-32 lg:pb-28 min-h-[640px] flex items-center">
+    <!-- Server Datacenter Background with Brightness & Contrast Boost -->
+    <div class="absolute inset-0 z-0">
+        <img src="{{ asset('assets/images/hero-datacenter.jpg') }}" 
+             alt="SkySoft Enterprise Server Datacenter Infrastructure" 
+             class="w-full h-full object-cover object-center filter brightness-[1.25] contrast-[1.12] saturate-[1.3] transform scale-105 transition duration-1000">
+        <!-- High-tech dark glassmorphism gradient overlay to ensure perfect text contrast while highlighting glowing rack LEDs -->
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/92 via-slate-950/75 to-slate-950/50 backdrop-blur-[1px]"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/70"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(16,185,129,0.18),transparent_60%)]"></div>
+    </div>
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             <!-- Left Hero Content -->
             <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
-                <div class="inline-flex items-center space-x-2.5 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-semibold uppercase tracking-wider backdrop-blur-md shadow-inner shadow-emerald-500/10">
-                    <span class="flex h-2 w-2 relative">
+                <div class="inline-flex items-center space-x-2.5 px-4 py-2 rounded-full bg-slate-900/80 border border-emerald-500/40 text-emerald-300 text-xs font-semibold uppercase tracking-wider backdrop-blur-md shadow-lg shadow-emerald-500/10">
+                    <span class="flex h-2.5 w-2.5 relative">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
                     </span>
                     <span>Enterprise IT & POS Infrastructure &bull; Nairobi, Kenya</span>
                 </div>
