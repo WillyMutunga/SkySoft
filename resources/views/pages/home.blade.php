@@ -4,63 +4,62 @@
 
 @section('content')
 <!-- Hero Section with Bright Datacenter Server Racks -->
-<section class="relative overflow-hidden bg-slate-950 text-white pt-24 pb-20 lg:pt-32 lg:pb-28 min-h-[640px] flex items-center">
-    <!-- Server Datacenter Background with Brightness & Contrast Boost -->
+<section class="relative overflow-hidden text-white pt-20 pb-20 lg:pt-28 lg:pb-24 min-h-[680px] flex items-center bg-slate-950">
+    <!-- Server Datacenter Background (Bright, Vivid, Prominent) -->
     <div class="absolute inset-0 z-0">
         <img src="{{ asset('assets/images/hero-datacenter.jpg') }}" 
              alt="SkySoft Enterprise Server Datacenter Infrastructure" 
-             class="w-full h-full object-cover object-center filter brightness-[1.25] contrast-[1.12] saturate-[1.3] transform scale-105 transition duration-1000">
-        <!-- High-tech dark glassmorphism gradient overlay to ensure perfect text contrast while highlighting glowing rack LEDs -->
-        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/92 via-slate-950/75 to-slate-950/50 backdrop-blur-[1px]"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/70"></div>
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(16,185,129,0.18),transparent_60%)]"></div>
+             class="w-full h-full object-cover object-center filter brightness-[1.3] contrast-[1.18] saturate-[1.4] transform scale-100">
+        <!-- Light transparent gradient overlay so glowing green, amber, and cyan LED server racks and floor reflections shine through brightly -->
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/40 to-slate-950/25"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/40"></div>
     </div>
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             <!-- Left Hero Content -->
-            <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
-                <div class="inline-flex items-center space-x-2.5 px-4 py-2 rounded-full bg-slate-900/80 border border-emerald-500/40 text-emerald-300 text-xs font-semibold uppercase tracking-wider backdrop-blur-md shadow-lg shadow-emerald-500/10">
+            <div class="lg:col-span-7 space-y-7 text-center lg:text-left drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
+                <div class="inline-flex items-center space-x-2.5 px-4 py-2 rounded-full bg-slate-950/80 border border-emerald-500/50 text-emerald-300 text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-xl">
                     <span class="flex h-2.5 w-2.5 relative">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80"></span>
                         <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
                     </span>
                     <span>Enterprise IT & POS Infrastructure &bull; Nairobi, Kenya</span>
                 </div>
                 
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.15]">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.15] drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
                     Smart IT Systems Engineered for <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300">Unstoppable Growth</span>
                 </h1>
                 
-                <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                <p class="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                     Empowering Kenyan retail supermarkets, healthcare facilities, schools, and enterprises with certified <strong>Touch POS Terminals</strong>, <strong>KRA eTIMS & M-Pesa Automations</strong>, <strong>0ms Online UPS Units</strong>, and <strong>Enterprise Cyber Security</strong>.
                 </p>
 
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                    <a href="{{ route('products.index') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-base transition-all duration-300 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transform hover:-translate-y-0.5">
+                    <a href="{{ route('products.index') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-base transition-all duration-300 shadow-xl shadow-emerald-500/30 hover:shadow-emerald-500/50 transform hover:-translate-y-0.5">
                         <span>Explore Hardware Catalog</span>
-                        <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                     </a>
-                    <a href="{{ route('contact') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-800/90 border border-slate-700/80 text-white font-semibold text-base backdrop-blur-md transition-all duration-300 shadow-sm hover:border-slate-600">
+                    <a href="{{ route('contact') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-slate-950/85 hover:bg-slate-900/90 border border-white/20 text-white font-bold text-base backdrop-blur-md transition-all duration-300 shadow-lg hover:border-emerald-500/50">
                         <span>Book Site Assessment</span>
                     </a>
                 </div>
 
                 <!-- Trust Metrics / Stats -->
-                <div class="grid grid-cols-3 gap-6 pt-6 border-t border-slate-800/80 max-w-lg mx-auto lg:mx-0">
-                    <div class="p-3 rounded-xl bg-slate-900/40 border border-white/[0.04]">
-                        <div class="text-2xl sm:text-3xl font-extrabold text-white">99.99%</div>
-                        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Uptime SLA</div>
+                <div class="grid grid-cols-3 gap-6 pt-6 border-t border-white/10 max-w-lg mx-auto lg:mx-0">
+                    <div class="p-3.5 rounded-xl bg-slate-950/70 border border-white/10 backdrop-blur-md">
+                        <div class="text-2xl sm:text-3xl font-black text-white">99.99%</div>
+                        <div class="text-[11px] text-slate-300 uppercase tracking-wider font-bold mt-1">Uptime SLA</div>
                     </div>
-                    <div class="p-3 rounded-xl bg-slate-900/40 border border-white/[0.04]">
-                        <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400">250+</div>
-                        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Deployments</div>
+                    <div class="p-3.5 rounded-xl bg-slate-950/70 border border-white/10 backdrop-blur-md">
+                        <div class="text-2xl sm:text-3xl font-black text-emerald-400">250+</div>
+                        <div class="text-[11px] text-slate-300 uppercase tracking-wider font-bold mt-1">Deployments</div>
                     </div>
-                    <div class="p-3 rounded-xl bg-slate-900/40 border border-white/[0.04]">
-                        <div class="text-2xl sm:text-3xl font-extrabold text-teal-300">0ms</div>
-                        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Power Transfer</div>
+                    <div class="p-3.5 rounded-xl bg-slate-950/70 border border-white/10 backdrop-blur-md">
+                        <div class="text-2xl sm:text-3xl font-black text-teal-300">0ms</div>
+                        <div class="text-[11px] text-slate-300 uppercase tracking-wider font-bold mt-1">Power Transfer</div>
                     </div>
                 </div>
             </div>
