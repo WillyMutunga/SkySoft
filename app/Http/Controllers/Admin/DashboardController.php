@@ -16,6 +16,8 @@ class DashboardController extends Controller
             'featured_products' => Product::where('is_featured', true)->count(),
             'total_inquiries' => Inquiry::count(),
             'pending_inquiries' => Inquiry::where('status', 'pending')->count(),
+            'total_users' => User::count(),
+            'active_users' => User::where('is_active', true)->count(),
         ];
 
         $recentInquiries = Inquiry::with('product')

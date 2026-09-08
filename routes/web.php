@@ -37,6 +37,8 @@ Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/sitemap.xml', [PageController::class, 'sitemap'])->name('sitemap');
 Route::get('/robots.txt', [PageController::class, 'robots'])->name('robots');
 
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+
 /*
 |--------------------------------------------------------------------------
 | Admin Authentication Routes
@@ -59,21 +61,34 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('index');
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-        // Products CRUD
-        Route::resource('products', AdminProductController::class);
+        // Products CRUD (Protected by products.manage)
+        Route::middleware('permission:products.manage')->group(function () {
+            Route::resource('products', AdminProductController::class);
+        });
 
-        // Posts & Tech Insights CRUD
-        Route::resource('posts', AdminPostController::class);
+        // Posts & Tech Insights CRUD (Protected by posts.manage)
+        Route::middleware('permission:posts.manage')->group(function () {
+            Route::resource('posts', AdminPostController::class);
+        });
 
-        // Inquiries Management
-        Route::get('/inquiries/export/csv', [AdminInquiryController::class, 'exportCsv'])->name('inquiries.export');
-        Route::get('/inquiries', [AdminInquiryController::class, 'index'])->name('inquiries.index');
-        Route::get('/inquiries/{id}', [AdminInquiryController::class, 'show'])->name('inquiries.show');
-        Route::patch('/inquiries/{id}/status', [AdminInquiryController::class, 'updateStatus'])->name('inquiries.updateStatus');
-        Route::delete('/inquiries/{id}', [AdminInquiryController::class, 'destroy'])->name('inquiries.destroy');
+        // Inquiries Management (Protected by inquiries.manage)
+        Route::middleware('permission:inquiries.manage')->group(function () {
+            Route::get('/inquiries/export/csv', [AdminInquiryController::class, 'exportCsv'])->name('inquiries.export');
+            Route::get('/inquiries', [AdminInquiryController::class, 'index'])->name('inquiries.index');
+            Route::get('/inquiries/{id}', [AdminInquiryController::class, 'show'])->name('inquiries.show');
+            Route::patch('/inquiries/{id}/status', [AdminInquiryController::class, 'updateStatus'])->name('inquiries.updateStatus');
+            Route::delete('/inquiries/{id}', [AdminInquiryController::class, 'destroy'])->name('inquiries.destroy');
+        });
 
-        // Company Settings
-        Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');
-        Route::post('/settings', [AdminSettingController::class, 'update'])->name('settings.update');
+        // Company Settings (Protected by settings.manage)
+        Route::middleware('permission:settings.manage')->group(function () {
+            Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');
+            Route::post('/settings', [AdminSettingController::class, 'update'])->name('settings.update');
+        });
+
+        // User Management & Privileges (Protected by users.manage)
+        Route::middleware('permission:users.manage')->group(function () {
+            Route::resource('users', AdminUserController::class);
+        });
     });
 });

@@ -66,25 +66,40 @@
                     <span>Dashboard</span>
                 </a>
 
+                @if(Auth::user()->hasPermission('products.manage'))
                 <a href="{{ route('admin.products.index') }}" class="flex items-center px-4 py-3 rounded-xl transition {{ request()->routeIs('admin.products.*') ? 'bg-emerald-600 text-white font-semibold shadow-md' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                     <span>Products Catalog</span>
                 </a>
+                @endif
 
+                @if(Auth::user()->hasPermission('inquiries.manage'))
                 <a href="{{ route('admin.inquiries.index') }}" class="flex items-center px-4 py-3 rounded-xl transition {{ request()->routeIs('admin.inquiries.*') ? 'bg-emerald-600 text-white font-semibold shadow-md' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                     <span>Customer Inquiries</span>
                 </a>
+                @endif
 
+                @if(Auth::user()->hasPermission('posts.manage'))
                 <a href="{{ route('admin.posts.index') }}" class="flex items-center px-4 py-3 rounded-xl transition {{ request()->routeIs('admin.posts.*') ? 'bg-emerald-600 text-white font-semibold shadow-md' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
                     <span>Tech Insights & Blog</span>
                 </a>
+                @endif
 
+                @if(Auth::user()->hasPermission('settings.manage'))
                 <a href="{{ route('admin.settings.index') }}" class="flex items-center px-4 py-3 rounded-xl transition {{ request()->routeIs('admin.settings.*') ? 'bg-emerald-600 text-white font-semibold shadow-md' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     <span>Company Settings</span>
                 </a>
+                @endif
+
+                @if(Auth::user()->hasPermission('users.manage'))
+                <a href="{{ route('admin.users.index') }}" class="flex items-center px-4 py-3 rounded-xl transition {{ request()->routeIs('admin.users.*') ? 'bg-emerald-600 text-white font-semibold shadow-md' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <span>Users & Privileges</span>
+                </a>
+                @endif
 
                 <div class="pt-4 border-t border-slate-800">
                     <a href="{{ route('home') }}" target="_blank" class="flex items-center px-4 py-2.5 text-xs text-slate-400 hover:text-emerald-400 transition">
@@ -99,8 +114,13 @@
         <div class="p-4 border-t border-slate-800">
             <div class="flex items-center justify-between mb-3 px-2">
                 <div>
-                    <p class="text-xs font-bold text-white">{{ Auth::user()->name ?? 'Administrator' }}</p>
-                    <p class="text-[10px] text-slate-500 truncate">{{ Auth::user()->email ?? '' }}</p>
+                    <p class="text-xs font-bold text-white flex items-center gap-1.5">
+                        <span>{{ Auth::user()->name ?? 'Administrator' }}</span>
+                    </p>
+                    <span class="inline-block mt-1 text-[10px] font-bold px-1.5 py-0.2 rounded border {{ Auth::user()->role_badge_class ?? 'bg-slate-800 text-slate-400 border-slate-700' }}">
+                        {{ Auth::user()->role_title ?? 'Staff' }}
+                    </span>
+                    <p class="text-[10px] text-slate-500 truncate mt-0.5">{{ Auth::user()->email ?? '' }}</p>
                 </div>
             </div>
             <form action="{{ route('admin.logout') }}" method="POST">
@@ -122,14 +142,23 @@
                 <button @click="sidebarOpen = true" class="md:hidden mr-4 text-slate-600 hover:text-slate-900">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
-                <h1 class="text-xl font-bold text-slate-900">@yield('header_title', 'Management Dashboard')</h1>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900">@yield('header_title', 'Management Dashboard')</h1>
+                </div>
             </div>
 
             <div class="flex items-center space-x-3">
+                <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold border {{ Auth::user()->role_badge_class ?? 'bg-slate-100 text-slate-700 border-slate-200' }}">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
+                    {{ Auth::user()->role_title ?? 'Staff' }}
+                </span>
+
+                @if(Auth::user()->hasPermission('products.manage'))
                 <a href="{{ route('admin.products.create') }}" class="hidden sm:inline-flex items-center px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition">
                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                     <span>Add Product</span>
                 </a>
+                @endif
             </div>
         </header>
 

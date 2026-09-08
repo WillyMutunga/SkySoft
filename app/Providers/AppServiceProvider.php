@@ -22,6 +22,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Automatically ensure new migrations are executed if schema changed
+        try {
+            if (Schema::hasTable('users') && !Schema::hasColumn('users', 'role')) {
+                \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            }
+        } catch (\Throwable $e) {
+            // Ignore if in console or running migration
+        }
+
         // Share company settings globally with all Blade views
         View::composer('*', function ($view) {
             $settings = [];

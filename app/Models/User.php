@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'permissions',
+        'is_active',
+        'last_login_at',
     ];
 
     /**
@@ -43,6 +47,82 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'permissions' => 'array',
+            'is_active' => 'boolean',
+            'last_login_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Determine if the user is a super administrator.
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'super_admin' || $this->email === 'wmutunga003@gmail.com';
+    }
+
+    /**
+     * Check if user has a specific permission.
+     */
+    public function hasPermission(string $permission): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        if (!$this->is_active) {
+            return false;
+        }
+
+        $permissions = $this->permissions ?? [];
+        return in_array('*', $permissions) || in_array($permission, $permissions);
+    }
+
+    /**
+     * Check if user has any of the given permissions.
+     */
+    public function hasAnyPermission(array $permissions): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        foreach ($permissions as $permission) {
+            if ($this->hasPermission($permission)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Human-readable role label.
+     */
+    public function getRoleTitleAttribute(): string
+    {
+        return match ($this->role) {
+            'super_admin' => 'Super Administrator',
+            'admin' => 'Administrator',
+            'manager' => 'Operations Manager',
+            'editor' => 'Content & Catalog Editor',
+            'support' => 'Support Specialist',
+            default => ucfirst(str_replace('_', ' ', $this->role ?? 'Staff')),
+        };
+    }
+
+    /**
+     * Role badge Tailwind styling.
+     */
+    public function getRoleBadgeClassAttribute(): string
+    {
+        return match ($this->role) {
+            'super_admin' => 'bg-purple-100 text-purple-800 border-purple-200',
+            'admin' => 'bg-emerald-100 text-emerald-800 border-emerald-200',
+            'manager' => 'bg-blue-100 text-blue-800 border-blue-200',
+            'editor' => 'bg-amber-100 text-amber-800 border-amber-200',
+            'support' => 'bg-cyan-100 text-cyan-800 border-cyan-200',
+            default => 'bg-slate-100 text-slate-800 border-slate-200',
+        };
     }
 }
