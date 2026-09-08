@@ -58,7 +58,7 @@ class User extends Authenticatable
      */
     public function isSuperAdmin(): bool
     {
-        return $this->role === 'super_admin' || $this->email === 'wmutunga003@gmail.com';
+        return ($this->role ?? '') === 'super_admin' || ($this->email ?? '') === 'wmutunga003@gmail.com';
     }
 
     /**
@@ -70,12 +70,19 @@ class User extends Authenticatable
             return true;
         }
 
-        if (!$this->is_active) {
+        if ($this->is_active === false || $this->is_active === 0 || $this->is_active === '0') {
             return false;
         }
 
-        $permissions = $this->permissions ?? [];
-        return in_array('*', $permissions) || in_array($permission, $permissions);
+        $permissions = $this->permissions;
+        if (is_string($permissions)) {
+            $permissions = json_decode($permissions, true) ?: [];
+        }
+        if (!is_array($permissions)) {
+            $permissions = [];
+        }
+
+        return in_array('*', $permissions, true) || in_array($permission, $permissions, true);
     }
 
     /**
@@ -101,13 +108,14 @@ class User extends Authenticatable
      */
     public function getRoleTitleAttribute(): string
     {
-        return match ($this->role) {
+        $role = $this->role ?? 'admin';
+        return match ($role) {
             'super_admin' => 'Super Administrator',
             'admin' => 'Administrator',
             'manager' => 'Operations Manager',
             'editor' => 'Content & Catalog Editor',
             'support' => 'Support Specialist',
-            default => ucfirst(str_replace('_', ' ', $this->role ?? 'Staff')),
+            default => ucfirst(str_replace('_', ' ', (string)$role)),
         };
     }
 
@@ -116,7 +124,8 @@ class User extends Authenticatable
      */
     public function getRoleBadgeClassAttribute(): string
     {
-        return match ($this->role) {
+        $role = $this->role ?? 'admin';
+        return match ($role) {
             'super_admin' => 'bg-purple-100 text-purple-800 border-purple-200',
             'admin' => 'bg-emerald-100 text-emerald-800 border-emerald-200',
             'manager' => 'bg-blue-100 text-blue-800 border-blue-200',

@@ -14,16 +14,16 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             if (!Schema::hasColumn('users', 'role')) {
-                $table->string('role')->default('admin')->after('email');
+                $table->string('role')->default('admin');
             }
             if (!Schema::hasColumn('users', 'permissions')) {
-                $table->json('permissions')->nullable()->after('role');
+                $table->text('permissions')->nullable();
             }
             if (!Schema::hasColumn('users', 'is_active')) {
-                $table->boolean('is_active')->default(true)->after('permissions');
+                $table->boolean('is_active')->default(true);
             }
             if (!Schema::hasColumn('users', 'last_login_at')) {
-                $table->timestamp('last_login_at')->nullable()->after('is_active');
+                $table->timestamp('last_login_at')->nullable();
             }
         });
 

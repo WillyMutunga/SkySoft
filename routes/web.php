@@ -7,9 +7,11 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\InquiryController as AdminInquiryController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,8 +39,6 @@ Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/sitemap.xml', [PageController::class, 'sitemap'])->name('sitemap');
 Route::get('/robots.txt', [PageController::class, 'robots'])->name('robots');
 
-use App\Http\Controllers\Admin\UserController as AdminUserController;
-
 /*
 |--------------------------------------------------------------------------
 | Admin Authentication Routes
@@ -61,9 +61,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('index');
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-        // Products CRUD (Protected by products.manage)
+        // Products & Categories CRUD (Protected by products.manage)
         Route::middleware('permission:products.manage')->group(function () {
             Route::resource('products', AdminProductController::class);
+            Route::resource('categories', AdminCategoryController::class);
         });
 
         // Posts & Tech Insights CRUD (Protected by posts.manage)

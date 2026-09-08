@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Automatically ensure new migrations are executed if schema changed
         try {
-            if (Schema::hasTable('users') && !Schema::hasColumn('users', 'role')) {
+            if ((Schema::hasTable('users') && !Schema::hasColumn('users', 'role')) || !Schema::hasTable('categories')) {
                 \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
             }
         } catch (\Throwable $e) {

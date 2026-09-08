@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
@@ -25,21 +26,27 @@ class ProductController extends Controller
         }
 
         $products = $query->orderBy('sort_order', 'asc')->latest()->paginate(15);
-        $categories = Product::select('category')->distinct()->pluck('category');
+        $categories = Category::where('is_active', true)->orderBy('sort_order')->pluck('name')->toArray();
+        if (empty($categories)) {
+            $categories = Product::select('category')->distinct()->pluck('category')->toArray();
+        }
 
         return view('admin.products.index', compact('products', 'categories'));
     }
 
     public function create()
     {
-        $categories = [
-            'Point of Sale (POS)',
-            'Power Backup & UPS',
-            'Networking & Security',
-            'Enterprise Software',
-            'Security & Surveillance',
-            'Hardware & Accessories',
-        ];
+        $categories = Category::where('is_active', true)->orderBy('sort_order')->pluck('name')->toArray();
+        if (empty($categories)) {
+            $categories = [
+                'Point of Sale (POS)',
+                'Power Backup & UPS',
+                'Networking & Security',
+                'Enterprise Software',
+                'Security & Surveillance',
+                'Hardware & Accessories',
+            ];
+        }
 
         return view('admin.products.create', compact('categories'));
     }
@@ -112,14 +119,22 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        $categories = [
-            'Point of Sale (POS)',
-            'Power Backup & UPS',
-            'Networking & Security',
-            'Enterprise Software',
-            'Security & Surveillance',
-            'Hardware & Accessories',
-        ];
+        $categories = Category::where('is_active', true)->orderBy('sort_order')->pluck('name')->toArray();
+        if (empty($categories)) {
+            $categories = [
+                'Point of Sale (POS)',
+                'Power Backup & UPS',
+                'Networking & Security',
+                'Enterprise Software',
+                'Security & Surveillance',
+                'Hardware & Accessories',
+            ];
+        }
+
+        // Ensure current product's category is included in list if custom
+        if (!empty($product->category) && !in_array($product->category, $categories)) {
+            $categories[] = $product->category;
+        }
 
         return view('admin.products.edit', compact('product', 'categories'));
     }

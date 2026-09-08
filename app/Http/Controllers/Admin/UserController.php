@@ -53,6 +53,14 @@ class UserController extends Controller
     }
 
     /**
+     * Display a user (redirect to edit).
+     */
+    public function show(User $user)
+    {
+        return redirect()->route('admin.users.edit', $user->id);
+    }
+
+    /**
      * Store a new user with chosen privileges.
      */
     public function store(Request $request)

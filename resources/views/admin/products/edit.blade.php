@@ -25,7 +25,12 @@
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Category *</label>
+                <div class="flex items-center justify-between mb-1">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Category *</label>
+                    <a href="{{ route('admin.categories.index') }}" target="_blank" class="text-[11px] font-bold text-emerald-600 hover:text-emerald-700 flex items-center">
+                        <span>+ Manage Categories</span>
+                    </a>
+                </div>
                 <select name="category" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 bg-white">
                     @foreach($categories as $cat)
                     <option value="{{ $cat }}" {{ old('category', $product->category) === $cat ? 'selected' : '' }}>{{ $cat }}</option>
