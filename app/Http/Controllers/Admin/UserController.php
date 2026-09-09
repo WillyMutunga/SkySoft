@@ -75,23 +75,27 @@ class UserController extends Controller
             'is_active' => 'nullable|boolean',
         ]);
 
-        $permissions = $request->input('permissions', []);
+        try {
+            $permissions = $request->input('permissions', []);
 
-        // If super_admin role is selected, give full permissions
-        if ($request->input('role') === 'super_admin') {
-            $permissions = array_keys($this->getAvailablePermissions());
+            // If super_admin role is selected, give full permissions
+            if ($request->input('role') === 'super_admin') {
+                $permissions = array_keys($this->getAvailablePermissions());
+            }
+
+            User::create([
+                'name' => $request->input('name'),
+                'email' => strtolower(trim($request->input('email'))),
+                'password' => Hash::make($request->input('password')),
+                'role' => $request->input('role', 'admin'),
+                'permissions' => $permissions,
+                'is_active' => $request->boolean('is_active', true),
+            ]);
+
+            return redirect()->route('admin.users.index')->with('success', 'User account created successfully with assigned privileges.');
+        } catch (\Throwable $e) {
+            return back()->withInput()->with('error', 'Failed to create user: ' . $e->getMessage());
         }
-
-        User::create([
-            'name' => $request->input('name'),
-            'email' => strtolower(trim($request->input('email'))),
-            'password' => Hash::make($request->input('password')),
-            'role' => $request->input('role'),
-            'permissions' => $permissions,
-            'is_active' => $request->boolean('is_active', true),
-        ]);
-
-        return redirect()->route('admin.users.index')->with('success', 'User account created successfully with assigned privileges.');
     }
 
     /**
@@ -127,27 +131,31 @@ class UserController extends Controller
             }
         }
 
-        $permissions = $request->input('permissions', []);
+        try {
+            $permissions = $request->input('permissions', []);
 
-        if ($request->input('role') === 'super_admin') {
-            $permissions = array_keys($this->getAvailablePermissions());
+            if ($request->input('role') === 'super_admin') {
+                $permissions = array_keys($this->getAvailablePermissions());
+            }
+
+            $data = [
+                'name' => $request->input('name'),
+                'email' => strtolower(trim($request->input('email'))),
+                'role' => $request->input('role', 'admin'),
+                'permissions' => $permissions,
+                'is_active' => $request->boolean('is_active', true),
+            ];
+
+            if ($request->filled('password')) {
+                $data['password'] = Hash::make($request->input('password'));
+            }
+
+            $user->update($data);
+
+            return redirect()->route('admin.users.index')->with('success', "User [{$user->name}] privileges updated successfully.");
+        } catch (\Throwable $e) {
+            return back()->withInput()->with('error', 'Failed to update user: ' . $e->getMessage());
         }
-
-        $data = [
-            'name' => $request->input('name'),
-            'email' => strtolower(trim($request->input('email'))),
-            'role' => $request->input('role'),
-            'permissions' => $permissions,
-            'is_active' => $request->boolean('is_active', true),
-        ];
-
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->input('password'));
-        }
-
-        $user->update($data);
-
-        return redirect()->route('admin.users.index')->with('success', "User [{$user->name}] privileges updated successfully.");
     }
 
     /**
@@ -165,10 +173,14 @@ class UserController extends Controller
             return back()->with('error', 'Action prohibited: The primary root system administrator cannot be deleted.');
         }
 
-        $userName = $user->name;
-        $user->delete();
+        try {
+            $userName = $user->name;
+            $user->delete();
 
-        return redirect()->route('admin.users.index')->with('success', "User [{$userName}] has been removed from the system.");
+            return redirect()->route('admin.users.index')->with('success', "User [{$userName}] has been removed from the system.");
+        } catch (\Throwable $e) {
+            return back()->with('error', 'Failed to delete user: ' . $e->getMessage());
+        }
     }
 
     /**
