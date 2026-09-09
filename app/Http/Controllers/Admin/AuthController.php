@@ -26,8 +26,19 @@ class AuthController extends Controller
         $remember = $request->has('remember');
 
         if (Auth::attempt($credentials, $remember)) {
+            $user = Auth::user();
+            if ($user->is_active === false || $user->is_active === 0 || $user->is_active === '0') {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Your account has been deactivated. Please contact your system administrator.',
+                ])->onlyInput('email');
+            }
+            try {
+                $user->update(['last_login_at' => now()]);
+            } catch (\Throwable $e) {}
+            
             $request->session()->regenerate();
-            return redirect()->intended(route('admin.dashboard'))->with('success', 'Welcome back, ' . Auth::user()->name . '!');
+            return redirect()->intended(route('admin.dashboard'))->with('success', 'Welcome back, ' . $user->name . '!');
         }
 
         return back()->withErrors([

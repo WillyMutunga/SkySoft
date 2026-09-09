@@ -22,10 +22,36 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Automatically ensure new migrations are executed if schema changed
+        // Automatically ensure new migrations and SQLite columns are executed
         try {
-            if ((Schema::hasTable('users') && !Schema::hasColumn('users', 'role')) || !Schema::hasTable('categories')) {
-                \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            if (Schema::hasTable('users')) {
+                $userCols = Schema::getColumnListing('users');
+                if (!in_array('role', $userCols)) {
+                    \Illuminate\Support\Facades\DB::statement("ALTER TABLE users ADD COLUMN role VARCHAR DEFAULT 'admin'");
+                }
+                if (!in_array('permissions', $userCols)) {
+                    \Illuminate\Support\Facades\DB::statement("ALTER TABLE users ADD COLUMN permissions TEXT NULL");
+                }
+                if (!in_array('is_active', $userCols)) {
+                    \Illuminate\Support\Facades\DB::statement("ALTER TABLE users ADD COLUMN is_active TINYINT(1) DEFAULT 1");
+                }
+                if (!in_array('last_login_at', $userCols)) {
+                    \Illuminate\Support\Facades\DB::statement("ALTER TABLE users ADD COLUMN last_login_at DATETIME NULL");
+                }
+            }
+
+            if (!Schema::hasTable('categories')) {
+                \Illuminate\Support\Facades\DB::statement("CREATE TABLE IF NOT EXISTS categories (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name VARCHAR UNIQUE NOT NULL,
+                    slug VARCHAR UNIQUE NOT NULL,
+                    description TEXT NULL,
+                    icon VARCHAR NULL,
+                    sort_order INTEGER DEFAULT 0,
+                    is_active TINYINT(1) DEFAULT 1,
+                    created_at DATETIME NULL,
+                    updated_at DATETIME NULL
+                )");
             }
         } catch (\Throwable $e) {
             // Ignore if in console or running migration
