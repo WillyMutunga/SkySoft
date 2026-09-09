@@ -22,7 +22,7 @@ class CheckPermission
             return redirect()->route('admin.login');
         }
 
-        if (!$user->is_active) {
+        if ($user->is_active === false || $user->is_active === 0 || $user->is_active === '0') {
             Auth::logout();
             return redirect()->route('admin.login')->withErrors([
                 'email' => 'Your account has been deactivated. Please contact your system administrator.'

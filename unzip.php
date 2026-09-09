@@ -87,6 +87,41 @@ if (file_exists(__DIR__ . '/index.html')) {
     @unlink(__DIR__ . '/index.html');
 }
 
+// Direct SQLite schema check and repair for users table
+try {
+    if (file_exists($dbFile)) {
+        $db = new PDO('sqlite:' . $dbFile);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        $cols = [];
+        $res = $db->query("PRAGMA table_info(users)");
+        if ($res) {
+            while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
+                $cols[] = $row['name'];
+            }
+        }
+        
+        if (!in_array('role', $cols)) {
+            $db->exec("ALTER TABLE users ADD COLUMN role VARCHAR DEFAULT 'admin'");
+        }
+        if (!in_array('permissions', $cols)) {
+            $db->exec("ALTER TABLE users ADD COLUMN permissions TEXT NULL");
+        }
+        if (!in_array('is_active', $cols)) {
+            $db->exec("ALTER TABLE users ADD COLUMN is_active INTEGER DEFAULT 1");
+        }
+        if (!in_array('last_login_at', $cols)) {
+            $db->exec("ALTER TABLE users ADD COLUMN last_login_at DATETIME NULL");
+        }
+        
+        // Update super admin
+        $db->exec("UPDATE users SET role = 'super_admin', is_active = 1 WHERE email = 'wmutunga003@gmail.com'");
+        echo "<p>&check; Direct SQLite user columns verified & repaired.</p>";
+    }
+} catch (\Throwable $e) {
+    echo "<p>&excl; Direct SQLite note: " . $e->getMessage() . "</p>";
+}
+
 // Bootstrap Laravel to run Artisan commands if composer autoload exists
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require __DIR__ . '/vendor/autoload.php';
@@ -117,5 +152,14 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     }
 }
 
+// Show recent Laravel log entries
+$logFile = __DIR__ . '/storage/logs/laravel.log';
+if (file_exists($logFile)) {
+    $lines = file($logFile);
+    $lastLines = array_slice($lines, -60);
+    echo "<h4>Recent Laravel Error Log:</h4>";
+    echo "<pre style='background:#0f172a;color:#38bdf8;padding:12px;border-radius:8px;font-size:11px;overflow:auto;max-height:350px;white-space:pre-wrap;'>" . htmlspecialchars(implode("", $lastLines)) . "</pre>";
+}
+
 echo "<h3>&check; SkySoft Systems is fully synced, cache-cleared, and live!</h3>";
-echo "<p><a href='/'>&rarr; Live Website</a> | <a href='/admin/dashboard'>&rarr; Admin Dashboard</a> | <a href='/admin/settings'>&rarr; Company Settings</a></p>";
+echo "<p><a href='/'>&rarr; Live Website</a> | <a href='/admin/dashboard'>&rarr; Admin Dashboard</a> | <a href='/admin/users'>&rarr; Staff & Privileges</a></p>";

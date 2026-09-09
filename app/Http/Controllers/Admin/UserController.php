@@ -16,29 +16,33 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $query = User::query();
+        try {
+            $query = User::query();
 
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
-            });
+            if ($request->filled('search')) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%");
+                });
+            }
+
+            if ($request->filled('role')) {
+                $query->where('role', $request->input('role'));
+            }
+
+            if ($request->filled('status')) {
+                $query->where('is_active', $request->input('status') === 'active');
+            }
+
+            $users = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
+
+            $allPermissions = $this->getAvailablePermissions();
+
+            return view('admin.users.index', compact('users', 'allPermissions'));
+        } catch (\Throwable $e) {
+            return redirect()->route('admin.dashboard')->with('error', 'Error loading users list: ' . $e->getMessage());
         }
-
-        if ($request->filled('role')) {
-            $query->where('role', $request->input('role'));
-        }
-
-        if ($request->filled('status')) {
-            $query->where('is_active', $request->input('status') === 'active');
-        }
-
-        $users = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
-
-        $allPermissions = $this->getAvailablePermissions();
-
-        return view('admin.users.index', compact('users', 'allPermissions'));
     }
 
     /**
@@ -46,10 +50,14 @@ class UserController extends Controller
      */
     public function create()
     {
-        $availablePermissions = $this->getAvailablePermissions();
-        $roles = $this->getAvailableRoles();
+        try {
+            $availablePermissions = $this->getAvailablePermissions();
+            $roles = $this->getAvailableRoles();
 
-        return view('admin.users.create', compact('availablePermissions', 'roles'));
+            return view('admin.users.create', compact('availablePermissions', 'roles'));
+        } catch (\Throwable $e) {
+            return redirect()->route('admin.users.index')->with('error', 'Unable to load user creation form: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -103,10 +111,14 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $availablePermissions = $this->getAvailablePermissions();
-        $roles = $this->getAvailableRoles();
+        try {
+            $availablePermissions = $this->getAvailablePermissions();
+            $roles = $this->getAvailableRoles();
 
-        return view('admin.users.edit', compact('user', 'availablePermissions', 'roles'));
+            return view('admin.users.edit', compact('user', 'availablePermissions', 'roles'));
+        } catch (\Throwable $e) {
+            return redirect()->route('admin.users.index')->with('error', 'Unable to load edit form: ' . $e->getMessage());
+        }
     }
 
     /**
