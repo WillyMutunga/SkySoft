@@ -151,30 +151,24 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
         echo "<p>&excl; Cache note: " . $e->getMessage() . "</p>";
     }
 
-    // Self-test rendering admin views
+    // Self-test dispatching real HTTP request through Kernel
     try {
-        $user = \App\Models\User::first();
+        $user = \App\Models\User::where('email', 'wmutunga003@gmail.com')->first() ?: \App\Models\User::first();
         if ($user) {
             \Illuminate\Support\Facades\Auth::login($user);
-            $userController = new \App\Http\Controllers\Admin\UserController;
-            $reflectedMethod = new \ReflectionMethod(\App\Http\Controllers\Admin\UserController::class, 'getAvailablePermissions');
-            $reflectedMethod->setAccessible(true);
-            $availablePermissions = $reflectedMethod->invoke($userController);
+            $req = \Illuminate\Http\Request::create('/admin/users/create', 'GET');
+            $req->setUserResolver(function () use ($user) { return $user; });
+            $res = $app->handle($req);
             
-            $reflectedRoles = new \ReflectionMethod(\App\Http\Controllers\Admin\UserController::class, 'getAvailableRoles');
-            $reflectedRoles->setAccessible(true);
-            $roles = $reflectedRoles->invoke($userController);
-
-            $rendered = view('admin.users.create', compact('availablePermissions', 'roles'))->render();
-            echo "<p>&check; View test [admin.users.create] rendered successfully! (" . strlen($rendered) . " bytes)</p>";
+            echo "<p>&check; HTTP Request GET [/admin/users/create] Response Status: <strong>" . $res->getStatusCode() . "</strong> (" . strlen($res->getContent()) . " bytes)</p>";
             
-            $users = \App\Models\User::paginate(10);
-            $allPermissions = $availablePermissions;
-            $renderedIndex = view('admin.users.index', compact('users', 'allPermissions'))->render();
-            echo "<p>&check; View test [admin.users.index] rendered successfully! (" . strlen($renderedIndex) . " bytes)</p>";
+            $reqIndex = \Illuminate\Http\Request::create('/admin/users', 'GET');
+            $reqIndex->setUserResolver(function () use ($user) { return $user; });
+            $resIndex = $app->handle($reqIndex);
+            echo "<p>&check; HTTP Request GET [/admin/users] Response Status: <strong>" . $resIndex->getStatusCode() . "</strong> (" . strlen($resIndex->getContent()) . " bytes)</p>";
         }
     } catch (\Throwable $e) {
-        echo "<p style='color:red;font-weight:bold;'>&cross; View Render Test Error: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine() . "</p>";
+        echo "<p style='color:red;font-weight:bold;'>&cross; Kernel HTTP Dispatch Test Error: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine() . "</p>";
     }
 }
 
