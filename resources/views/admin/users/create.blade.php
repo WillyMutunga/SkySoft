@@ -127,8 +127,8 @@
 <script>
 function userForm() {
     return {
-        selectedRole: '{{ old('role', 'admin') }}',
-        permissions: @json(old('permissions', ['products.manage', 'inquiries.manage', 'posts.manage'])),
+        selectedRole: "{{ old('role', 'admin') }}",
+        permissions: {!! json_encode(old('permissions', ['products.manage', 'inquiries.manage', 'posts.manage'])) !!},
         setPreset(perms) {
             this.permissions = perms;
         },

@@ -128,8 +128,8 @@
 <script>
 function userEditForm() {
     return {
-        selectedRole: '{{ old('role', $user->role) }}',
-        permissions: @json(old('permissions', $user->permissions ?? [])),
+        selectedRole: "{{ old('role', $user->role ?? 'admin') }}",
+        permissions: {!! json_encode(old('permissions', is_array($user->permissions) ? $user->permissions : (json_decode($user->permissions ?? '[]', true) ?: []))) !!},
         setPreset(perms) {
             this.permissions = perms;
         },
