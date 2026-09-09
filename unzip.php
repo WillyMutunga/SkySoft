@@ -150,6 +150,32 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     } catch (\Throwable $e) {
         echo "<p>&excl; Cache note: " . $e->getMessage() . "</p>";
     }
+
+    // Self-test rendering admin views
+    try {
+        $user = \App\Models\User::first();
+        if ($user) {
+            \Illuminate\Support\Facades\Auth::login($user);
+            $userController = new \App\Http\Controllers\Admin\UserController;
+            $reflectedMethod = new \ReflectionMethod(\App\Http\Controllers\Admin\UserController::class, 'getAvailablePermissions');
+            $reflectedMethod->setAccessible(true);
+            $availablePermissions = $reflectedMethod->invoke($userController);
+            
+            $reflectedRoles = new \ReflectionMethod(\App\Http\Controllers\Admin\UserController::class, 'getAvailableRoles');
+            $reflectedRoles->setAccessible(true);
+            $roles = $reflectedRoles->invoke($userController);
+
+            $rendered = view('admin.users.create', compact('availablePermissions', 'roles'))->render();
+            echo "<p>&check; View test [admin.users.create] rendered successfully! (" . strlen($rendered) . " bytes)</p>";
+            
+            $users = \App\Models\User::paginate(10);
+            $allPermissions = $availablePermissions;
+            $renderedIndex = view('admin.users.index', compact('users', 'allPermissions'))->render();
+            echo "<p>&check; View test [admin.users.index] rendered successfully! (" . strlen($renderedIndex) . " bytes)</p>";
+        }
+    } catch (\Throwable $e) {
+        echo "<p style='color:red;font-weight:bold;'>&cross; View Render Test Error: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine() . "</p>";
+    }
 }
 
 // Show recent Laravel log entries
