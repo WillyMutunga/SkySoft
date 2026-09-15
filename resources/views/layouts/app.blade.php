@@ -183,33 +183,6 @@
 </head>
 <body class="font-sans antialiased text-slate-800 bg-slate-950 flex flex-col min-h-screen selection:bg-emerald-500 selection:text-slate-950" x-data="{ mobileMenuOpen: false, showScrollTop: false }" @scroll.window="showScrollTop = (window.pageYOffset > 400)">
 
-    <!-- Top Status / Fast Support Bar -->
-    <div class="bg-cyber-950 text-slate-300 text-xs py-2 border-b border-white/[0.06] hidden sm:block">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <div class="flex items-center space-x-6">
-                <span class="flex items-center text-emerald-400 font-semibold">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-ping inline-block"></span>
-                    <span class="text-slate-300 font-normal mr-1">Nairobi NOC:</span> {{ $companySettings['office_address'] ?? 'Nairobi, Kenya' }} &bull; 24/7 Field &amp; Remote Support
-                </span>
-                <span class="flex items-center text-slate-400">
-                    <svg class="w-3.5 h-3.5 mr-1.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    <a href="mailto:{{ $companySettings['company_email'] ?? 'info@skysoftsystems.co.ke' }}" class="hover:text-emerald-400 transition">{{ $companySettings['company_email'] ?? 'info@skysoftsystems.co.ke' }}</a>
-                </span>
-            </div>
-            <div class="flex items-center space-x-4">
-                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $companySettings['company_whatsapp'] ?? '254712345678') }}" target="_blank" class="flex items-center text-emerald-400 hover:text-emerald-300 font-bold transition">
-                    <svg class="w-3.5 h-3.5 mr-1.5 fill-current text-[#25D366]" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 1.771.815 2.796.815 3.182 0 5.768-2.587 5.768-5.767 0-3.18-2.586-5.767-5.768-5.767zm9.969 5.768c0 5.509-4.482 9.99-9.969 9.99-1.748 0-3.38-.456-4.806-1.254l-5.225 1.369 1.393-5.093c-.899-1.498-1.362-3.21-1.362-5.012 0-5.509 4.482-9.99 9.969-9.99 5.487 0 9.969 4.481 9.969 9.99z"/></svg>
-                    Hotline: {{ $companySettings['company_phone'] ?? '+254 712 345 678' }}
-                </a>
-                <span class="text-slate-700">|</span>
-                <a href="{{ route('admin.login') }}" class="text-slate-400 hover:text-white transition flex items-center gap-1">
-                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                    <span>Staff Portal</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Navigation Header (Floating Dark Glassmorphism) -->
     <header class="sticky top-0 z-50 bg-cyber-950/90 backdrop-blur-2xl border-b border-white/[0.08] transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.4)]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
